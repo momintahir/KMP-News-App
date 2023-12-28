@@ -1,6 +1,6 @@
 package kmp.news.app
 
-import App
+import momin.tahir.kmp.newsapp.presentation.screens.news_list.App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

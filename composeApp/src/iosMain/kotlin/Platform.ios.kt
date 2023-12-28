@@ -1,3 +1,4 @@
+import momin.tahir.kmp.newsapp.presentation.screens.news_list.Platform
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
