@@ -1,8 +1,11 @@
 [versions]
 agp = "8.1.4"
+
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
+
+
 androidx-activityCompose = "1.8.2"
 androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
@@ -21,12 +24,17 @@ kotlinx-coroutines = "1.7.3"
 insetsx = "0.1.0-alpha07"
 ktor = "2.3.2"
 kotlinx-serialization = "1.5.1"
-koin = "3.4.3"
+koin = "3.5.0"
 koinCompose = "1.0.4"
 sqlDelight = "2.0.0-alpha05"
 voyager = "1.0.0-rc08"
 
 [libraries]
+androidGradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+composeGradle = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

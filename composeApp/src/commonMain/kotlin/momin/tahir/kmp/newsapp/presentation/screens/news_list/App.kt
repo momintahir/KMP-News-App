@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.Navigator
 
 @Composable
 fun App() {
@@ -39,7 +40,8 @@ fun App() {
                 }
             },
             content = {
-                if (selectedScreen== "Home") NewsScreen() else SavedNewsScreen()
+//                if (selectedScreen== "Home") NewsScreen() else SavedNewsScreen()
+               NewsScreen()
             }
         )
     }
@@ -47,7 +49,7 @@ fun App() {
 
 @Composable
 fun NewsScreen() {
-
+    Navigator(NewsListScreen())
 }
 
 @Composable

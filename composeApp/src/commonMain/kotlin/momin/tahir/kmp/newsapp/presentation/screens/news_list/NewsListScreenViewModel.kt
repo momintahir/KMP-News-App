@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
 import kotlin.coroutines.CoroutineContext
 
-class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase):ScreenModel {
+class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase) : ScreenModel {
     private val job = SupervisorJob()
     private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
     private val viewModelScope = CoroutineScope(coroutineContextX)
@@ -22,4 +22,5 @@ class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase):Scr
             }
         }
     }
+    fun fetchAllNews()=allNewsUseCase.invoke()
 }

@@ -1,10 +1,14 @@
 package momin.tahir.kmp.newsapp.data.remote
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class NewsDto(
     val articles: List<ArticleDto>,
     val status: String,
     val totalResults: Int
 )
+@Serializable
 data class ArticleDto(
     val author: String?,
     val content: String,
@@ -16,6 +20,7 @@ data class ArticleDto(
     val urlToImage: String?
 )
 
+@Serializable
 data class SourceDto(
     val id: String?,
     val name: String

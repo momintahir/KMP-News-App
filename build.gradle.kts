@@ -6,3 +6,16 @@ plugins {
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+    dependencies {
+        classpath(libs.androidGradle)
+        classpath(libs.composeGradle)
+        classpath(libs.kotlinGradle)
+        classpath((kotlin("serialization", version = "1.8.20")))
+    }
+}
