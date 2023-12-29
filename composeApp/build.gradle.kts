@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.voyager.koin)
             implementation(libs.voyager.bottomSheetNavigator)
             implementation(libs.voyager.tabNavigator)
+            implementation(libs.image.loader)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
         }

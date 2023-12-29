@@ -28,6 +28,8 @@ koin = "3.5.0"
 koinCompose = "1.0.4"
 sqlDelight = "2.0.0-alpha05"
 voyager = "1.0.0-rc08"
+image-loader-version = "1.5.3"
+
 
 [libraries]
 androidGradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -69,6 +71,9 @@ sqlDelight-driver-sqljs = { module = "app.cash.sqldelight:sqljs-driver", version
 sqlDelight-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+
+image-loader = {module= "io.github.qdsfdhvh:image-loader", version.ref = "image-loader-version"}
+
 
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
