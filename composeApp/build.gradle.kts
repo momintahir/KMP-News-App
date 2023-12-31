@@ -1,5 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.plugin.sources.dependsOnClosure
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -29,7 +30,7 @@ kotlin {
     }
     
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -61,9 +62,22 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
         }
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+
+//        val iosMain by getting {
+//            dependencies {
+//                dependsOn(commonMain.get())
+//                implementation(libs.ktor.client.darwin)
+//            }
+//        }
+//        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
     }
 }
 
