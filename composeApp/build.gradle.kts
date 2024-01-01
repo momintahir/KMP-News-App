@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.sqlDelight)
     kotlin("plugin.serialization")
 }
 
@@ -37,6 +38,7 @@ kotlin {
             implementation(libs.compose.navigation)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
+            implementation(libs.sqlDelight.driver.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -59,6 +61,7 @@ kotlin {
             implementation(libs.voyager.bottomSheetNavigator)
             implementation(libs.voyager.tabNavigator)
             implementation(libs.image.loader)
+            implementation(libs.sqlDelight.extensions)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
         }
@@ -69,6 +72,7 @@ kotlin {
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.sqlDelight.driver.native)
         }
 
 //        val iosMain by getting {
@@ -78,6 +82,15 @@ kotlin {
 //            }
 //        }
 //        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
+    }
+}
+
+sqldelight {
+    databases {
+        create(name = "AppDatabase") {
+            packageName.set("momin.tahir.kmp.newsapp.data.sqldelight")
+            sourceFolders.set(listOf("kotlin"))
+        }
     }
 }
 
