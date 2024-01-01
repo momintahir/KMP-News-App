@@ -10,8 +10,12 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import momin.tahir.kmp.newsapp.data.api.INewsApi
 import momin.tahir.kmp.newsapp.data.api.NewsApi
+import momin.tahir.kmp.newsapp.data.repository.ICacheData
 import momin.tahir.kmp.newsapp.data.repository.INewsRepository
 import momin.tahir.kmp.newsapp.data.repository.NewsRepositoryImp
+import momin.tahir.kmp.newsapp.data.sqldelight.CacheDataImp
+import momin.tahir.kmp.newsapp.data.sqldelight.Database
+import momin.tahir.kmp.newsapp.data.sqldelight.DatabaseDriverFactory
 import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
@@ -30,10 +34,10 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
             viewModelModule,
             useCasesModule,
             repositoryModule,
-//            sqlDelightModule,
+            sqlDelightModule,
             ktorModule,
             jsonModule,
-//            dataBaseDriverFactory
+            dataBaseDriverFactory
         )
     }
 
@@ -68,13 +72,13 @@ val viewModelModule = module {
     factory { NewsListScreenViewModel(get(),get()) }
     factory { SavedNewsListScreenViewModel(get(),get()) }
 }
-//val sqlDelightModule = module {
-//    single { Database(get()) }
-//}
+val sqlDelightModule = module {
+    single { Database(get()) }
+}
 
-//val dataBaseDriverFactory = module {
-//    single { DatabaseDriverFactory() }
-//}
+val dataBaseDriverFactory = module {
+    single { DatabaseDriverFactory() }
+}
 
 val jsonModule = module {
     single { createJson() }
@@ -89,8 +93,8 @@ fun createJson() = Json {
 }
 
 val repositoryModule = module {
-    single<INewsRepository> { NewsRepositoryImp(get()) }
+    single<INewsRepository> { NewsRepositoryImp(get(),get()) }
     single<INewsApi> { NewsApi(get(), get()) }
-//    single<ICacheData> { CacheDataImp(get()) }
+    single<ICacheData> { CacheDataImp(get()) }
 }
 fun initKoin() = initKoin {}

@@ -53,9 +53,9 @@ class SavedNewsListScreen : Screen {
         val news = remember { mutableStateOf<List<Article>>(emptyList()) }
         val scaffoldState = rememberScaffoldState()
         LaunchedEffect(Unit) {
-//            viewModel.getSavedArticles().collect {
-//                news.value = it
-//            }
+            viewModel.getSavedArticles().collect {
+                news.value = it
+            }
         }
         val newsList = news.value ?: return
 

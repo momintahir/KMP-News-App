@@ -28,7 +28,7 @@ class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
     fun fetchAllNews()=allNewsUseCase.invoke()
     fun saveArticle(article: Article) {
         viewModelScope.launch {
-//            saveArticleUseCase.invoke(article)
+            saveArticleUseCase.invoke(article)
         }
 
     }

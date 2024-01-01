@@ -26,7 +26,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            binaryOption("bundleId","kmp.news.app.commonMain")
+//            binaryOption("bundleId","kmp.news.app.commonMain")
             isStatic = true
         }
     }

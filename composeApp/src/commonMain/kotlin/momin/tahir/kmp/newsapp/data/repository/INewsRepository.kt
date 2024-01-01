@@ -7,7 +7,7 @@ import momin.tahir.kmp.newsapp.domain.model.Article
 interface INewsRepository {
     suspend fun fetchAllNews(): NewsDto
 
-//    suspend fun saveArticle(article: Article)
-//    suspend fun getSavedArticles():List<Article>
+    suspend fun saveArticle(article: Article)
+    suspend fun getSavedArticles():List<Article>
 
 }

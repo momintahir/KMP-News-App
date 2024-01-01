@@ -1,15 +1,15 @@
 
--- CREATE TABLE Article(
---     author TEXT,
---     content TEXT NOT NULL,
---     description TEXT,
---     publishedAt TEXT NOT NULL,
---     title TEXT NOT NULL,
---     url TEXT NOT NULL PRIMARY KEY,
---     urlToImage TEXT);
---
--- insertNewsFavourite:
--- INSERT INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (?,?,?,?,?,?,?);
---
--- selectAllNewsFavorite:
--- SELECT * FROM Article;
+CREATE TABLE Article(
+    author TEXT,
+    content TEXT NOT NULL,
+    description TEXT,
+    publishedAt TEXT NOT NULL,
+    title TEXT NOT NULL,
+    url TEXT NOT NULL PRIMARY KEY,
+    urlToImage TEXT);
+
+insertNewsFavourite:
+INSERT INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (?,?,?,?,?,?,?);
+
+selectAllNewsFavorite:
+SELECT * FROM Article;

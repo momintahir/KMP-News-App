@@ -15,9 +15,9 @@ import kotlin.coroutines.CoroutineContext
 
 class SavedNewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
                                    private val savedArticles: GetSavedNewsUseCase) : ScreenModel {
-    private val job = SupervisorJob()
-    private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
-    private val viewModelScope = CoroutineScope(coroutineContextX)
+//    private val job = SupervisorJob()
+//    private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
+//    private val viewModelScope = CoroutineScope(coroutineContextX)
 
-//    fun getSavedArticles()=savedArticles.invoke()
+    fun getSavedArticles()=savedArticles.invoke()
 }

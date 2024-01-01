@@ -6,8 +6,8 @@ import momin.tahir.kmp.newsapp.data.repository.INewsRepository
 
 class GetSavedNewsUseCase(private val repository: INewsRepository) {
 
-//    operator fun invoke() = flow {
-//        val response = repository.getSavedArticles()
-//        emit(response)
-//    }
+    operator fun invoke() = flow {
+        val response = repository.getSavedArticles()
+        emit(response)
+    }
 }
