@@ -9,7 +9,7 @@ CREATE TABLE Article(
     urlToImage TEXT);
 
 insertNewsFavourite:
-INSERT INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (?,?,?,?,?,?,?);
 
 selectAllNewsFavorite:
 SELECT * FROM Article;
