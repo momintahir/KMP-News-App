@@ -8,8 +8,9 @@ CREATE TABLE Article(
     url TEXT NOT NULL PRIMARY KEY,
     urlToImage TEXT);
 
+-- Equivalent to OnConflictStrategy.Replace
 insertNewsFavourite:
-INSERT OR REPLACE INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (:author,:description,:publishedAt,:title,:content,:url,:urlToImage);
 
 selectAllNewsFavorite:
 SELECT * FROM Article;

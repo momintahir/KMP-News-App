@@ -53,13 +53,10 @@ import momin.tahir.kmp.newsapp.presentation.screens.web_view.WebViewScreen
 import org.jetbrains.compose.resources.painterResource
 
 class NewsListScreen : Screen {
-    override val key: ScreenKey = uniqueScreenKey
-
     @Composable
     override fun Content() {
         println("inside content")
         val viewModel = getScreenModel<NewsListScreenViewModel>()
-
         MainScreen(viewModel)
     }
 
@@ -147,8 +144,6 @@ class NewsListScreen : Screen {
                     .height(110.dp)
                     .padding(4.dp)
                     .clip(RoundedCornerShape(8.dp))
-
-
             )
 
             Column(
@@ -171,31 +166,10 @@ class NewsListScreen : Screen {
                     onActionSave(article)
                 })
             }
-
-//           ActionBarIcon(icon = Icons.Filled.Favorite, onClick = {
-//               onActionSave(article)
-//           })
         }
     }
 
     private fun navigateToWebViewScreen(webUrl: String, navigator: Navigator) {
         navigator.push(WebViewScreen(webUrl))
-    }
-
-    @Composable
-    fun ActionBarIcon(
-        enabled: Boolean = true,
-        onClick: () -> Unit,
-        icon: ImageVector
-    ) {
-        IconButton(
-            onClick = onClick,
-            enabled = enabled,
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
-            )
-        }
     }
 }

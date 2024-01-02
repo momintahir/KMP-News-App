@@ -15,18 +15,18 @@ import kotlin.coroutines.CoroutineContext
 
 class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
                               private val saveArticleUseCase: SaveNewsUseCase) : ScreenModel {
-//    private val job = SupervisorJob()
-//    private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
-    private val viewModelScope = CoroutineScope(Dispatchers.Unconfined)
+
+    private val job = SupervisorJob()
+    private val coroutineContext: CoroutineContext = job + Dispatchers.IO
+    private val viewModelScope = CoroutineScope(coroutineContext)
+
     val newsViewState = MutableStateFlow<NewsListViewState>(NewsListViewState.Loading)
 
     init {
         viewModelScope.launch {
             try {
                 val news = allNewsUseCase.invoke()
-                newsViewState.value = NewsListViewState.Success(
-                    news = news
-                )
+                newsViewState.value = NewsListViewState.Success(news = news)
             } catch (e: Exception) {
                 e.printStackTrace()
                 newsViewState.value = NewsListViewState.Failure(e.message.toString())
@@ -34,12 +34,9 @@ class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
         }
     }
 
-
-
     fun saveArticle(article: Article) {
         viewModelScope.launch {
             saveArticleUseCase.invoke(article)
         }
-
     }
 }

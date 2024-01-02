@@ -14,14 +14,7 @@ data class ArticleDto(
     val content: String,
     val description: String?,
     val publishedAt: String,
-//    val source: SourceDto,
     val title: String,
     val url: String,
     val urlToImage: String?
-)
-
-@Serializable
-data class SourceDto(
-    val id: String?,
-    val name: String
 )

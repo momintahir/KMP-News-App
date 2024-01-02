@@ -13,11 +13,9 @@ import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
 import kotlin.coroutines.CoroutineContext
 
-class SavedNewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
-                                   private val savedArticles: GetSavedNewsUseCase) : ScreenModel {
-//    private val job = SupervisorJob()
-//    private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
-//    private val viewModelScope = CoroutineScope(coroutineContextX)
+class SavedNewsListScreenViewModel(
+    private val savedArticles: GetSavedNewsUseCase
+) : ScreenModel {
 
-    fun getSavedArticles()=savedArticles.invoke()
+    fun getSavedArticles() = savedArticles.invoke()
 }

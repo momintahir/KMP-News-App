@@ -57,19 +57,10 @@ class SavedNewsListScreen : Screen {
                 news.value = it
             }
         }
-        val newsList = news.value ?: return
-
         Scaffold(
             scaffoldState = scaffoldState,
             content = { padding ->
-//                Content(
-//                    padding,
-//                    topBarState,
-//                    bottomBarState,
-//                    fabState
-//                )
-
-                CharactersList(newsList, onCharacterClick =  {
+                CharactersList(news.value, onCharacterClick =  {
                     navigateToWebViewScreen(it,navigator)
                 }, onActionSave = {
 //                    viewModel.saveArticle(it)
@@ -84,12 +75,6 @@ class SavedNewsListScreen : Screen {
             drawerContent = {
               },
         )
-
-
-
-//        CharactersList(newsList) {
-//            navigateToWebViewScreen(it,navigator)
-//        }
     }
 
     @Composable
@@ -120,7 +105,6 @@ class SavedNewsListScreen : Screen {
         onClick: () -> Unit,
         onActionSave : (article:Article) -> Unit
     ) {
-        println("myArticle ${article.title}")
         Row(modifier = Modifier.fillMaxWidth().height(110.dp).background(Color.Yellow).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
             Image(
@@ -148,15 +132,10 @@ class SavedNewsListScreen : Screen {
                     maxLines = 2
                 )
             }
-
-//           ActionBarIcon(icon = Icons.Filled.Favorite, onClick = {
-//               onActionSave(article)
-//           })
         }
     }
 
     private fun navigateToWebViewScreen(webUrl: String, navigator: Navigator) {
         navigator.push(WebViewScreen(webUrl))
     }
-
 }

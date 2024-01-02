@@ -37,8 +37,7 @@ fun App() {
         Scaffold(
             bottomBar = {
                 BottomNavigation {
-                    with(screens.iterator()) {
-                        forEach { screen ->
+                        screens.forEach { screen ->
                             BottomNavigationItem(
                                 icon = { Icon(getIconForScreen(screen), contentDescription = screen) },
                                 label = { Text(screen) },
@@ -47,7 +46,6 @@ fun App() {
                                 modifier = Modifier.padding(8.dp)
                             )
                         }
-                    }
                 }
             },
             content = {

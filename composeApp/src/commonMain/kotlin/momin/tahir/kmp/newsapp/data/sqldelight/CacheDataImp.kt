@@ -34,6 +34,6 @@ class CacheDataImp(private val appDatabase: Database) : ICacheData {
          title: String,
          url: String,
          urlToImage: String?
-    ): Article = Article(author = author, content = content, description = description, publishedAt = publishedAt,
+    ) = Article(author = author, content = content, description = description, publishedAt = publishedAt,
         title = title, url = url, urlToImage = urlToImage)
 }

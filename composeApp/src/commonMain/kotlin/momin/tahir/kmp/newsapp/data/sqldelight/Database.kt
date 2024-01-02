@@ -10,23 +10,7 @@ import kotlinx.coroutines.flow.map
 class Database(private val databaseDriverFactory: DatabaseDriverFactory) {
     private var database: AppDatabase? = null
 
-//    private val sourceAdapter = object : ColumnAdapter<Source, String> {
-//        override fun decode(databaseValue: String): Source = when (databaseValue) {
-//            "Male" -> Gender.MALE
-//            "Female" -> Gender.FEMALE
-//            "Genderless" -> Gender.GENDERLESS
-//            else -> Gender.UNKNOWN
-//        }
-//
-//        override fun encode(value: Source): String = when (value) {
-//            Gender.MALE -> "Male"
-//            Gender.FEMALE -> "Female"
-//            Gender.GENDERLESS -> "Genderless"
-//            Gender.UNKNOWN -> "Unknown"
-//        }
-//    }
-
-    private suspend fun initDatabase() {
+    private fun initDatabase() {
         if (database == null) {
             database = AppDatabase.invoke(databaseDriverFactory.createDriver())
         }
@@ -36,12 +20,4 @@ class Database(private val databaseDriverFactory: DatabaseDriverFactory) {
         initDatabase()
         return block(database!!)
     }
-
-    fun getAllNews()= database?.appDatabaseQueries?.selectAllNewsFavorite()
-            ?.asFlow()
-            ?.mapToList(Dispatchers.IO)
-            ?.map { list ->
-                list.map { it }
-            }
-
 }

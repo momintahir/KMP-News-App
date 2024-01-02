@@ -70,7 +70,7 @@ val ktorModule = module {
 }
 val viewModelModule = module {
     factory { NewsListScreenViewModel(get(),get()) }
-    factory { SavedNewsListScreenViewModel(get(),get()) }
+    factory { SavedNewsListScreenViewModel(get()) }
 }
 val sqlDelightModule = module {
     single { Database(get()) }
