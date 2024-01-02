@@ -1,4 +1,4 @@
-package kmp.news.app
+package momin.tahir.kmp.newsapp
 
 import momin.tahir.kmp.newsapp.presentation.screens.news_list.App
 import android.os.Bundle

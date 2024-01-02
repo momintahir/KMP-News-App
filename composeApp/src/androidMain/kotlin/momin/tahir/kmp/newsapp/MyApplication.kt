@@ -1,7 +1,6 @@
-package kmp.news.app
+package momin.tahir.kmp.newsapp
 
 import android.app.Application
-import android.content.Context
 import momin.tahir.kmp.newsapp.domain.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
