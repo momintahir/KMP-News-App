@@ -6,8 +6,5 @@ import momin.tahir.kmp.newsapp.data.repository.INewsRepository
 
 class GetAllNewsUseCase(private val repository: INewsRepository) {
 
-    operator fun invoke() = flow {
-        val response = repository.fetchAllNews().toDomain()
-        emit(response)
-    }
+    suspend operator fun invoke() = repository.fetchAllNews().toDomain()
 }

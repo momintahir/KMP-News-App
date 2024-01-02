@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import momin.tahir.kmp.newsapp.domain.model.Article
@@ -14,18 +15,27 @@ import kotlin.coroutines.CoroutineContext
 
 class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
                               private val saveArticleUseCase: SaveNewsUseCase) : ScreenModel {
-    private val job = SupervisorJob()
-    private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
-    private val viewModelScope = CoroutineScope(coroutineContextX)
+//    private val job = SupervisorJob()
+//    private val coroutineContextX: CoroutineContext = job + Dispatchers.IO
+    private val viewModelScope = CoroutineScope(Dispatchers.Unconfined)
+    val newsViewState = MutableStateFlow<NewsListViewState>(NewsListViewState.Loading)
 
     init {
         viewModelScope.launch {
-            allNewsUseCase.invoke().collectLatest {
-                println("getting data from api $it")
+            try {
+                val news = allNewsUseCase.invoke()
+                newsViewState.value = NewsListViewState.Success(
+                    news = news
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+                newsViewState.value = NewsListViewState.Failure(e.message.toString())
             }
         }
     }
-    fun fetchAllNews()=allNewsUseCase.invoke()
+
+
+
     fun saveArticle(article: Article) {
         viewModelScope.launch {
             saveArticleUseCase.invoke(article)

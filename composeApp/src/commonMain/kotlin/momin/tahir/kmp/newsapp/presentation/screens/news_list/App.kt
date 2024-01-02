@@ -14,7 +14,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +31,7 @@ import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScre
 
 @Composable
 fun App() {
-    val screens = listOf("Home", "Feed")
+    val screens = listOf("News", "Saved")
     var selectedScreen by remember { mutableStateOf(screens.firstOrNull()) }
     MaterialTheme {
         Scaffold(
@@ -49,7 +51,7 @@ fun App() {
                 }
             },
             content = {
-                if (selectedScreen== "Home") NewsScreen() else SavedNewsScreen()
+                if (selectedScreen== "News") NewsScreen() else SavedNewsScreen()
             }
         )
     }
@@ -66,8 +68,8 @@ fun SavedNewsScreen() {
 @Composable
 fun getIconForScreen(screen: String): ImageVector {
     return when (screen) {
-        "Home" -> Icons.Default.Home
-        "Feed" -> Icons.Default.AccountBox
-        else -> Icons.Default.Home
+        "News" -> Icons.Default.List
+        "Saved" -> Icons.Default.Favorite
+        else -> Icons.Default.List
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -63,48 +65,49 @@ class NewsListScreen : Screen {
 
     @Composable
     fun MainScreen(viewModel: NewsListScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
-        val news = remember { mutableStateOf<News?>(null) }
         val scaffoldState = rememberScaffoldState()
-        LaunchedEffect(Unit) {
-            viewModel.fetchAllNews().collect {
-                news.value = it
-            }
+        val state = viewModel.newsViewState.collectAsState()
+        when (val resultedState = state.value) {
+            is NewsListViewState.Failure -> Failure(resultedState.error)
+            NewsListViewState.Loading -> Loading()
+            is NewsListViewState.Success ->
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    content = { padding ->
+                        CharactersList(resultedState.news, onCharacterClick = {
+                            navigateToWebViewScreen(it, navigator)
+                        }, onActionSave = {
+                            viewModel.saveArticle(it)
+                        })
+                    },
+                    topBar = {
+                        TopAppBar(title = {
+                            Text("Save", modifier = Modifier.clickable {
+
+                            })
+                        }, actions = {
+                        })
+                    },
+                    drawerContent = {
+                    },
+                )
         }
-        val newsList = news.value ?: return
-
-        Scaffold(
-            scaffoldState = scaffoldState,
-            content = { padding ->
-//                Content(
-//                    padding,
-//                    topBarState,
-//                    bottomBarState,
-//                    fabState
-//                )
-
-                CharactersList(newsList, onCharacterClick =  {
-                    navigateToWebViewScreen(it,navigator)
-                }, onActionSave = {
-                    viewModel.saveArticle(it)
-                })
-            },
-            topBar = { TopAppBar(title = {
-                Text("Save", modifier = Modifier.clickable {
-
-                })
-            }, actions = {
-            } )},
-            drawerContent = {
-              },
-        )
-
-
-
-//        CharactersList(newsList) {
-//            navigateToWebViewScreen(it,navigator)
-//        }
     }
-
+    @Composable
+    internal fun Failure(message: String) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Text(text = message, modifier = Modifier.align(Alignment.Center))
+        }
+    }
+    @Composable
+    internal fun Loading() {
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = Color.Magenta,
+            )
+        }
+    }
     @Composable
     fun CharactersList(
         news: News,
@@ -133,7 +136,6 @@ class NewsListScreen : Screen {
         onClick: () -> Unit,
         onActionSave : (article:Article) -> Unit
     ) {
-        println("myArticle ${article.title}")
         Row(modifier = Modifier.fillMaxWidth().height(110.dp).background(Color.Yellow).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
             Image(
@@ -141,9 +143,12 @@ class NewsListScreen : Screen {
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .padding(10.dp)
                     .width(110.dp)
                     .height(110.dp)
+                    .padding(4.dp)
+                    .clip(RoundedCornerShape(8.dp))
+
+
             )
 
             Column(
