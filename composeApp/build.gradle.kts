@@ -26,7 +26,6 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-//            binaryOption("bundleId","kmp.news.app.commonMain")
             isStatic = true
         }
     }
@@ -67,22 +66,10 @@ kotlin {
             implementation(compose.components.resources)
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.sqlDelight.driver.native)
         }
-
-//        val iosMain by getting {
-//            dependencies {
-//                dependsOn(commonMain.get())
-//                implementation(libs.ktor.client.darwin)
-//            }
-//        }
-//        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
     }
 }
 
