@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -105,16 +107,17 @@ class SavedNewsListScreen : Screen {
         onClick: () -> Unit,
         onActionSave : (article:Article) -> Unit
     ) {
-        Row(modifier = Modifier.fillMaxWidth().height(110.dp).background(Color.Yellow).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
+        Row(modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = rememberAsyncImagePainter(article.urlToImage ?: ""),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .padding(10.dp)
                     .width(110.dp)
                     .height(110.dp)
+                    .padding(10.dp)
+                    .clip(CircleShape)
             )
 
             Column(

@@ -1,5 +1,6 @@
 package momin.tahir.kmp.newsapp.presentation.screens.news_list
 
+import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,7 @@ class NewsListScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
     private val coroutineContext: CoroutineContext = job + Dispatchers.IO
     private val viewModelScope = CoroutineScope(coroutineContext)
 
-    val newsViewState = MutableStateFlow<NewsListViewState>(NewsListViewState.Loading)
+    val newsViewState = mutableStateOf<NewsListViewState>(NewsListViewState.Loading)
 
     init {
         viewModelScope.launch {

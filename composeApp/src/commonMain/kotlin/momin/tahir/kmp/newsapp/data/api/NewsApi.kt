@@ -7,6 +7,8 @@ import momin.tahir.kmp.newsapp.data.remote.NewsDto
 
 class NewsApi(private val baseUrl: String,
               private val httpClient: HttpClient):INewsApi {
-    override suspend fun fetchAllNews():NewsDto = httpClient.get("$baseUrl/everything?q=bitcoin&apiKey=a8ddfed7b99c4f2483649d694b79b0fb").body()
+    private val apiKey = "a8ddfed7b99c4f2483649d694b79b0fb"
+
+    override suspend fun fetchAllNews():NewsDto = httpClient.get("$baseUrl/everything?q=bitcoin&apiKey=$apiKey").body()
 
 }

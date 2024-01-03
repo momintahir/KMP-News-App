@@ -1,4 +1,4 @@
-package momin.tahir.kmp.newsapp.domain.di
+package momin.tahir.kmp.newsapp.di
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -36,7 +36,6 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
             repositoryModule,
             sqlDelightModule,
             ktorModule,
-            jsonModule,
             dataBaseDriverFactory
         )
     }
@@ -80,21 +79,11 @@ val dataBaseDriverFactory = module {
     single { DatabaseDriverFactory() }
 }
 
-val jsonModule = module {
-    single { createJson() }
-}
-
-fun createJson() = Json {
-    ignoreUnknownKeys = true
-    isLenient = true
-    encodeDefaults = true
-    prettyPrint = true
-    coerceInputValues = true
-}
-
 val repositoryModule = module {
     single<INewsRepository> { NewsRepositoryImp(get(),get()) }
     single<INewsApi> { NewsApi(get(), get()) }
     single<ICacheData> { CacheDataImp(get()) }
 }
+
+//using in iOS
 fun initKoin() = initKoin {}

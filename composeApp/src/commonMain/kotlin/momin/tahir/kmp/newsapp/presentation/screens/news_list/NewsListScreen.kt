@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
@@ -63,7 +65,7 @@ class NewsListScreen : Screen {
     @Composable
     fun MainScreen(viewModel: NewsListScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
         val scaffoldState = rememberScaffoldState()
-        val state = viewModel.newsViewState.collectAsState()
+        val state = viewModel.newsViewState
         when (val resultedState = state.value) {
             is NewsListViewState.Failure -> Failure(resultedState.error)
             NewsListViewState.Loading -> Loading()
@@ -77,27 +79,18 @@ class NewsListScreen : Screen {
                             viewModel.saveArticle(it)
                         })
                     },
-                    topBar = {
-                        TopAppBar(title = {
-                            Text("Save", modifier = Modifier.clickable {
-
-                            })
-                        }, actions = {
-                        })
-                    },
-                    drawerContent = {
-                    },
+                    topBar = { TopAppBar(title = { Text("News App") }) },
                 )
         }
     }
     @Composable
-    internal fun Failure(message: String) {
+    fun Failure(message: String) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(text = message, modifier = Modifier.align(Alignment.Center))
         }
     }
     @Composable
-    internal fun Loading() {
+    fun Loading() {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
@@ -133,7 +126,7 @@ class NewsListScreen : Screen {
         onClick: () -> Unit,
         onActionSave : (article:Article) -> Unit
     ) {
-        Row(modifier = Modifier.fillMaxWidth().height(110.dp).background(Color.Yellow).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
+        Row(modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = rememberAsyncImagePainter(article.urlToImage ?: ""),
@@ -143,7 +136,7 @@ class NewsListScreen : Screen {
                     .width(110.dp)
                     .height(110.dp)
                     .padding(4.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(CircleShape)
             )
 
             Column(

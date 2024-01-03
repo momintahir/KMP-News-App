@@ -1,7 +1,7 @@
 package momin.tahir.kmp.newsapp
 
 import android.app.Application
-import momin.tahir.kmp.newsapp.domain.di.initKoin
+import momin.tahir.kmp.newsapp.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 
@@ -15,7 +15,6 @@ class MyApplication: Application() {
             androidContext(this@MyApplication)
         }
     }
-
 
     companion object {
         lateinit var instance: MyApplication
