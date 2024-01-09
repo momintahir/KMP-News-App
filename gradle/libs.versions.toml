@@ -27,6 +27,7 @@ kotlinx-serialization = "1.5.1"
 koin = "3.5.0"
 koinCompose = "1.0.4"
 sqlDelight = "2.0.0-alpha05"
+uiUtil = "1.5.11"
 voyager = "1.0.0-rc10"
 image-loader-version = "1.5.3"
 
@@ -75,6 +76,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 image-loader = {module= "io.github.qdsfdhvh:image-loader", version.ref = "image-loader-version"}
 
 
+ui-util = { module = "org.jetbrains.compose.ui:ui-util", version.ref = "uiUtil" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
