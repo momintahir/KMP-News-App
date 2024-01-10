@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,8 +18,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -77,21 +78,21 @@ class HomeScreen : Screen {
         val scaffoldState = rememberScaffoldState()
         val state = viewModel.newsViewState
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-            TopNewsPager()
+
             when (val resultedState = state.value) {
                 is NewsListViewState.Failure -> Failure(resultedState.error)
                 NewsListViewState.Loading -> Loading()
-                is NewsListViewState.Success ->
-                    Scaffold(
-                        scaffoldState = scaffoldState,
-                        content = { padding ->
-                            CharactersList(resultedState.news, onCharacterClick = {
-                                navigateToWebViewScreen(it, navigator)
-                            }, onActionSave = {
-                                viewModel.saveArticle(it)
-                            })
-                        },
-                    )
+                is NewsListViewState.Success -> TopNewsPager(resultedState.news)
+//                    Scaffold(
+//                        scaffoldState = scaffoldState,
+//                        content = { padding ->
+//                            CharactersList(resultedState.news, onCharacterClick = {
+//                                navigateToWebViewScreen(it, navigator)
+//                            }, onActionSave = {
+//                                viewModel.saveArticle(it)
+//                            })
+//                        },
+//                    )
             }
         }
 
@@ -99,15 +100,20 @@ class HomeScreen : Screen {
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
     @Composable
-    fun TopNewsPager() {
-        val pagerState = rememberPagerState() { 5 }
-        var offsetY by remember { mutableStateOf(0f) }
-        HorizontalPager(state = pagerState, modifier = Modifier.background(Color.Yellow),
-            contentPadding = PaddingValues(horizontal = 10.dp)
+    fun TopNewsPager(news: News) {
+        val pagerState = rememberPagerState() { news.articles.take(7).size }
+        HorizontalPager(
+            state = pagerState, modifier = Modifier.fillMaxWidth(),
+            pageSpacing = 20.dp, contentPadding = PaddingValues(horizontal = 30.dp)
         ) { page ->
-            Card(backgroundColor = Color.Red,
-                modifier = Modifier
-                    .size(200.dp)
+            val newsItems = news.articles[page]
+            Image(
+                painter = rememberAsyncImagePainter(newsItems.urlToImage ?: ""),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.height(180.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
                     .graphicsLayer {
                         // Calculate the absolute offset for the current page from the
                         // scroll position. We use the absolute value which allows us to mirror
@@ -124,9 +130,30 @@ class HomeScreen : Screen {
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
                     }
-            ) {
+            )
+        }
+        Row(
+            Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            repeat(7) { iteration ->
+                val color = if (pagerState.currentPage == iteration) Color.Blue.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.1f)
+                Box(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(8.dp)
+
+                )
             }
         }
+    }
+    @OptIn(ExperimentalFoundationApi::class)
+    fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {
+        return (currentPage - page) + currentPageOffsetFraction
     }
 
     class CirclePath(private val progress: Float, private val origin: Offset = Offset(0f, 0f)) : Shape {
