@@ -9,13 +9,18 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
@@ -23,12 +28,12 @@ import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScre
 
 @Composable
 fun App() {
-    val screens = listOf("News", "Saved")
+    val screens = listOf("News","Discover","Saved","Profile" )
     var selectedScreen by remember { mutableStateOf(screens.firstOrNull()) }
     MaterialTheme {
         Scaffold(
             bottomBar = {
-                BottomNavigation {
+                BottomNavigation(backgroundColor = Color.White) {
                         screens.forEach { screen ->
                             BottomNavigationItem(
                                 icon = { Icon(getIconForScreen(screen), contentDescription = screen) },
@@ -58,8 +63,10 @@ fun SavedNewsScreen() {
 @Composable
 fun getIconForScreen(screen: String): ImageVector {
     return when (screen) {
-        "News" -> Icons.Default.List
-        "Saved" -> Icons.Default.Favorite
+        "News" -> Icons.Default.Home
+        "Discover" -> Icons.Default.Search
+        "Saved" -> Icons.Default.FavoriteBorder
+        "Profile" -> Icons.Default.Menu
         else -> Icons.Default.List
     }
 }

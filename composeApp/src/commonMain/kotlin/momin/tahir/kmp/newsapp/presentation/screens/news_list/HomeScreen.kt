@@ -51,8 +51,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
@@ -71,14 +73,12 @@ import kotlin.math.sqrt
 class HomeScreen : Screen {
     @Composable
     override fun Content() {
-        println("inside content")
         val viewModel = getScreenModel<NewsListScreenViewModel>()
         MainContent(viewModel)
     }
 
     @Composable
     fun MainContent(viewModel: NewsListScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
-        val scaffoldState = rememberScaffoldState()
         val state = viewModel.newsViewState
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -96,6 +96,9 @@ class HomeScreen : Screen {
     fun TopNewsPager(news: News) {
         val pagerState = rememberPagerState() { news.articles.take(7).size }
         Column {
+            Spacer(modifier = Modifier.height(6.dp))
+            Text("Breaking News", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 21.sp))
+            Spacer(modifier = Modifier.height(16.dp))
             HorizontalPager(
                 state = pagerState, modifier = Modifier.fillMaxWidth(),
                 pageSpacing = 20.dp, contentPadding = PaddingValues(horizontal = 30.dp)
@@ -145,11 +148,11 @@ class HomeScreen : Screen {
                 }
             }
             Spacer(modifier = Modifier.height(6.dp))
-            Text("Recommendation", style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
+            Text("Recommendation", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
             Spacer(modifier = Modifier.height(6.dp))
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
                 verticalArrangement = Arrangement.Top
             ) {
                 items(news.articles) { article ->
