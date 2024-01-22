@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +47,8 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -83,101 +86,84 @@ class HomeScreen : Screen {
                 is NewsListViewState.Failure -> Failure(resultedState.error)
                 NewsListViewState.Loading -> Loading()
                 is NewsListViewState.Success -> TopNewsPager(resultedState.news)
-//                    Scaffold(
-//                        scaffoldState = scaffoldState,
-//                        content = { padding ->
-//                            CharactersList(resultedState.news, onCharacterClick = {
-//                                navigateToWebViewScreen(it, navigator)
-//                            }, onActionSave = {
-//                                viewModel.saveArticle(it)
-//                            })
-//                        },
-//                    )
             }
         }
 
     }
 
-    @OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun TopNewsPager(news: News) {
         val pagerState = rememberPagerState() { news.articles.take(7).size }
-        HorizontalPager(
-            state = pagerState, modifier = Modifier.fillMaxWidth(),
-            pageSpacing = 20.dp, contentPadding = PaddingValues(horizontal = 30.dp)
-        ) { page ->
-            val newsItems = news.articles[page]
-            Image(
-                painter = rememberAsyncImagePainter(newsItems.urlToImage ?: ""),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.height(180.dp)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .graphicsLayer {
-                        // Calculate the absolute offset for the current page from the
-                        // scroll position. We use the absolute value which allows us to mirror
-                        // any effects for both directions
-                        val pageOffset = (
-                                (pagerState.currentPage - page) + pagerState
-                                    .currentPageOffsetFraction
-                                ).absoluteValue
+        Column {
+            HorizontalPager(
+                state = pagerState, modifier = Modifier.fillMaxWidth(),
+                pageSpacing = 20.dp, contentPadding = PaddingValues(horizontal = 30.dp)
+            ) { page ->
+                val newsItems = news.articles[page]
+                Image(
+                    painter = rememberAsyncImagePainter(newsItems.urlToImage ?: ""),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier.height(180.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .graphicsLayer {
+                            // Calculate the absolute offset for the current page from the
+                            // scroll position. We use the absolute value which allows us to mirror
+                            // any effects for both directions
+                            val pageOffset = (
+                                    (pagerState.currentPage - page) + pagerState
+                                        .currentPageOffsetFraction
+                                    ).absoluteValue
 
-                        // We animate the alpha, between 50% and 100%
-                        alpha = lerp(
-                            start = 0.5f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        )
-                    }
-            )
-        }
-        Row(
-            Modifier
-                .height(50.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            repeat(7) { iteration ->
-                val color = if (pagerState.currentPage == iteration) Color.Blue.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.1f)
-                Box(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .size(8.dp)
-
+                            // We animate the alpha, between 50% and 100%
+                            alpha = lerp(
+                                start = 0.5f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            )
+                        }
                 )
             }
-        }
-    }
-    @OptIn(ExperimentalFoundationApi::class)
-    fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {
-        return (currentPage - page) + currentPageOffsetFraction
-    }
+            Row(
+                Modifier
+                    .height(50.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                repeat(7) { iteration ->
+                    val color = if (pagerState.currentPage == iteration) Color.Blue.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.1f)
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .clip(CircleShape)
+                            .background(color)
+                            .size(8.dp)
 
-    class CirclePath(private val progress: Float, private val origin: Offset = Offset(0f, 0f)) : Shape {
-        override fun createOutline(
-            size: Size, layoutDirection: LayoutDirection, density: Density
-        ): Outline {
-
-            val center = Offset(
-                x = size.center.x - ((size.center.x - origin.x) * (1f - progress)),
-                y = size.center.y - ((size.center.y - origin.y) * (1f - progress)),
-            )
-            val radius = (sqrt(
-                size.height * size.height + size.width * size.width
-            ) * .5f) * progress
-
-            return Outline.Generic(Path().apply {
-                addOval(
-                    Rect(
-                        center = center,
-                        radius = radius,
                     )
-                )
-            })
+                }
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Text("Recommendation", style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
+            Spacer(modifier = Modifier.height(6.dp))
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top
+            ) {
+                items(news.articles) { article ->
+                    NewsItem(
+                        article = article,
+                        onClick = {
+//                            onCharacterClick(article.url)
+                        },
+                        onActionSave = { }
+                    )
+                }
+            }
         }
+
     }
 
     data class Destination(
@@ -227,12 +213,14 @@ class HomeScreen : Screen {
             "A romantic city built on a series of canals, Venice is known for its stunning architecture, art, and history. It's an ideal destination for culture lovers, foodies, and those seeking a romantic getaway."
         ),
     )
+
     @Composable
     fun Failure(message: String) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(text = message, modifier = Modifier.align(Alignment.Center))
         }
     }
+
     @Composable
     fun Loading() {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -242,6 +230,7 @@ class HomeScreen : Screen {
             )
         }
     }
+
     @Composable
     fun CharactersList(
         news: News,
@@ -268,19 +257,21 @@ class HomeScreen : Screen {
     fun NewsItem(
         article: Article,
         onClick: () -> Unit,
-        onActionSave : (article:Article) -> Unit
+        onActionSave: (article: Article) -> Unit
     ) {
-        Row(modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 painter = rememberAsyncImagePainter(article.urlToImage ?: ""),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .width(110.dp)
+                    .width(120.dp)
                     .height(110.dp)
                     .padding(4.dp)
-                    .clip(CircleShape)
+                    .clip(RoundedCornerShape(12.dp))
             )
 
             Column(
@@ -297,11 +288,11 @@ class HomeScreen : Screen {
                     modifier = Modifier,
                     maxLines = 2
                 )
-                Button(content = {
-                    Text("Save article")
-                }, onClick = {
-                    onActionSave(article)
-                })
+//                Button(content = {
+//                    Text("Save article")
+//                }, onClick = {
+//                    onActionSave(article)
+//                })
             }
         }
     }
