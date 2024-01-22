@@ -21,6 +21,7 @@ import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
 import momin.tahir.kmp.newsapp.presentation.screens.news_list.NewsListScreenViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScreenViewModel
+import momin.tahir.kmp.newsapp.presentation.screens.search_news.SearchNewsScreenViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
@@ -70,6 +71,7 @@ val ktorModule = module {
 val viewModelModule = module {
     factory { NewsListScreenViewModel(get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
+    factory { SearchNewsScreenViewModel() }
 }
 val sqlDelightModule = module {
     single { Database(get()) }

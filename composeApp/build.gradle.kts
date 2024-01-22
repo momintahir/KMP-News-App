@@ -63,6 +63,7 @@ kotlin {
             implementation(libs.voyager.tabNavigator)
             implementation(libs.image.loader)
             implementation(libs.sqlDelight.extensions)
+            implementation(libs.kermit)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
         }
