@@ -19,6 +19,7 @@ import momin.tahir.kmp.newsapp.data.sqldelight.DatabaseDriverFactory
 import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
+import momin.tahir.kmp.newsapp.domain.usecase.SearchNewsUseCase
 import momin.tahir.kmp.newsapp.presentation.screens.news_list.NewsListScreenViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScreenViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.search_news.SearchNewsScreenViewModel
@@ -45,6 +46,7 @@ val useCasesModule: Module = module {
     factory { GetAllNewsUseCase(get()) }
     factory { SaveNewsUseCase(get()) }
     factory { GetSavedNewsUseCase(get()) }
+    factory { SearchNewsUseCase(get()) }
 }
 
 val ktorModule = module {
@@ -71,7 +73,7 @@ val ktorModule = module {
 val viewModelModule = module {
     factory { NewsListScreenViewModel(get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
-    factory { SearchNewsScreenViewModel() }
+    factory { SearchNewsScreenViewModel(get()) }
 }
 val sqlDelightModule = module {
     single { Database(get()) }
