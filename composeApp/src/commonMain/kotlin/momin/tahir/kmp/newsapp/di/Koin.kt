@@ -20,7 +20,7 @@ import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SearchNewsUseCase
-import momin.tahir.kmp.newsapp.presentation.screens.news_list.NewsListScreenViewModel
+import momin.tahir.kmp.newsapp.presentation.screens.home.HomeScreenViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScreenViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.search_news.SearchNewsScreenViewModel
 import org.koin.core.context.startKoin
@@ -71,7 +71,7 @@ val ktorModule = module {
     single { "https://newsapi.org/v2" }
 }
 val viewModelModule = module {
-    factory { NewsListScreenViewModel(get(),get()) }
+    factory { HomeScreenViewModel(get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
     factory { SearchNewsScreenViewModel(get()) }
 }

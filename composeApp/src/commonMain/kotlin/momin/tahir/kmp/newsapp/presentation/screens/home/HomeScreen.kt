@@ -1,4 +1,4 @@
-package momin.tahir.kmp.newsapp.presentation.screens.news_list
+package momin.tahir.kmp.newsapp.presentation.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -19,41 +19,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import cafe.adriel.voyager.core.screen.Screen
@@ -65,27 +45,24 @@ import com.seiko.imageloader.rememberAsyncImagePainter
 import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.model.News
 import momin.tahir.kmp.newsapp.presentation.screens.web_view.WebViewScreen
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 import kotlin.math.absoluteValue
-import kotlin.math.sqrt
 
 class HomeScreen : Screen {
     @Composable
     override fun Content() {
-        val viewModel = getScreenModel<NewsListScreenViewModel>()
+        val viewModel = getScreenModel<HomeScreenViewModel>()
         MainContent(viewModel)
     }
 
     @Composable
-    fun MainContent(viewModel: NewsListScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
+    fun MainContent(viewModel: HomeScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
         val state = viewModel.newsViewState
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
             when (val resultedState = state.value) {
-                is NewsListViewState.Failure -> Failure(resultedState.error)
-                NewsListViewState.Loading -> Loading()
-                is NewsListViewState.Success -> TopNewsPager(resultedState.news)
+                is HomeScreenViewState.Failure -> Failure(resultedState.error)
+                HomeScreenViewState.Loading -> Loading()
+                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news)
             }
         }
 

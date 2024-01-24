@@ -1,4 +1,4 @@
-package momin.tahir.kmp.newsapp.presentation.screens.news_list
+package momin.tahir.kmp.newsapp.presentation.screens.home
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
