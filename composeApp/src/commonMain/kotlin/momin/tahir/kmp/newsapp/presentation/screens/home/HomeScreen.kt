@@ -85,42 +85,46 @@ class HomeScreen : Screen {
                 state = pagerState, modifier = Modifier.fillMaxWidth(),
                 pageSpacing = 20.dp, contentPadding = PaddingValues(horizontal = 30.dp)
             ) { page ->
-                val newsItems = news.articles[page]
-                Image(
-                    painter = rememberAsyncImagePainter(newsItems.urlToImage ?: ""),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.height(180.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(24.dp))
-                        .graphicsLayer {
-                            // Calculate the absolute offset for the current page from the
-                            // scroll position. We use the absolute value which allows us to mirror
-                            // any effects for both directions
-                            val pageOffset = (
-                                    (pagerState.currentPage - page) + pagerState
-                                        .currentPageOffsetFraction
-                                    ).absoluteValue
+                val item = news.articles[page]
+                Box {
+                    Image(
+                        painter = rememberAsyncImagePainter(item.urlToImage ?: ""),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier.height(180.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(24.dp))
+                            .graphicsLayer {
+                                // Calculate the absolute offset for the current page from the
+                                // scroll position. We use the absolute value which allows us to mirror
+                                // any effects for both directions
+                                val pageOffset = (
+                                        (pagerState.currentPage - page) + pagerState
+                                            .currentPageOffsetFraction
+                                        ).absoluteValue
 
-                            // We animate the alpha, between 50% and 100%
-                            alpha = lerp(
-                                start = 0.5f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        }
-                        .drawWithCache {
-                        val gradient = Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color.Black),
-                            startY = size.height/3,
-                            endY = size.height
-                        )
-                        onDrawWithContent {
-                            drawContent()
-                            drawRect(gradient,blendMode = BlendMode.Multiply)
-                        }
-                    }
-                )
+                                // We animate the alpha, between 50% and 100%
+                                alpha = lerp(
+                                    start = 0.5f,
+                                    stop = 1f,
+                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                )
+                            }
+                            .drawWithCache {
+                                val gradient = Brush.verticalGradient(
+                                    colors = listOf(Color.Transparent, Color.Black),
+                                    startY = size.height/3,
+                                    endY = size.height
+                                )
+                                onDrawWithContent {
+                                    drawContent()
+                                    drawRect(gradient,blendMode = BlendMode.Multiply)
+                                }
+                            }
+                    )
+                    Text(item.title, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp), color = Color.White, modifier = Modifier.align(Alignment.BottomStart).padding(horizontal = 20.dp, vertical = 15.dp))
+                }
+
             }
             Row(
                 Modifier
