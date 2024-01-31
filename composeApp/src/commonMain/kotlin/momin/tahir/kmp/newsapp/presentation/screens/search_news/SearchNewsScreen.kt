@@ -16,11 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Colors
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -124,26 +126,29 @@ class SearchNewsScreen:Screen {
     ) {
         Box(
             modifier = modifier
-                .padding(20.dp)
+                .padding(horizontal = 20.dp)
                 .clip(CircleShape)
-                .background(Color(0XFF101921))
+                .height(55.dp)
+                .background(Color.LightGray.copy(0.2f)), contentAlignment = Alignment.Center
 
         ) {
             TextField(value = search,
                 onValueChange = onValueChange,
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color(0XFF101921),
-                    placeholderColor = Color(0XFF888D91),
-                    leadingIconColor = Color(0XFF888D91),
-                    trailingIconColor = Color(0XFF888D91),
-                    textColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent, cursorColor = Color(0XFF070E14)
+                    backgroundColor = Color.LightGray.copy(0.2f),
+                    placeholderColor = Color.Gray.copy(0.3f),
+                    leadingIconColor = Color.Gray.copy(0.9f),
+                    trailingIconColor = Color.Gray.copy(0.9f),
+                    textColor = Color.Black,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Gray.copy(0.3f),
+                    unfocusedLabelColor = Color.Gray.copy(0.3f),
+                    focusedIndicatorColor = Color.Transparent, cursorColor = Color.Transparent
                 ),
                 leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
-                trailingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
-                placeholder = { Text(text = "Search") }
+                trailingIcon = { Icon(imageVector = Icons.Default.Menu, contentDescription = "") },
+                placeholder = { Text(text = "Search", color = Color.Gray.copy(0.9f)) }
             )
         }
-
     }
 }

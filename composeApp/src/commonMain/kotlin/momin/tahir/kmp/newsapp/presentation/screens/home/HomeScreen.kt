@@ -45,6 +45,8 @@ import com.seiko.imageloader.rememberAsyncImagePainter
 import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.model.News
 import momin.tahir.kmp.newsapp.presentation.screens.web_view.WebViewScreen
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.absoluteValue
 
 class HomeScreen : Screen {
@@ -184,6 +186,7 @@ class HomeScreen : Screen {
         }
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
     fun NewsItem(
         article: Article,
@@ -204,7 +207,7 @@ class HomeScreen : Screen {
                     .padding(4.dp)
                     .clip(RoundedCornerShape(12.dp))
             )
-
+            Spacer(modifier = Modifier.width(6.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -220,9 +223,10 @@ class HomeScreen : Screen {
                     text = article.description.orEmpty(),
                     modifier = Modifier,
                     maxLines = 2,
-                    fontSize = 12.sp,
+                       fontSize = 12.sp,
                     color = Color.Black.copy(alpha = 0.6f)
                 )
+                Image(painterResource("ic_save.png"), contentDescription = null,modifier = Modifier.size(20.dp))
 //                Button(content = {
 //                    Text("Save article")
 //                }, onClick = {
