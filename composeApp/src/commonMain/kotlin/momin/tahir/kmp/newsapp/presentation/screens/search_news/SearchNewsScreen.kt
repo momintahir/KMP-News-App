@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Colors
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -44,8 +47,10 @@ import cafe.adriel.voyager.koin.getScreenModel
 import co.touchlab.kermit.Logger
 import com.seiko.imageloader.rememberAsyncImagePainter
 import momin.tahir.kmp.newsapp.domain.model.Article
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
-class SearchNewsScreen:Screen {
+class SearchNewsScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<SearchNewsScreenViewModel>()
@@ -55,15 +60,20 @@ class SearchNewsScreen:Screen {
     @Composable
     fun MainContent(viewModel: SearchNewsScreenViewModel) {
         var search by remember { mutableStateOf("") }
-        Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.height(6.dp))
-        Text("Discover", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 21.sp))
-        Spacer(modifier = Modifier.height(16.dp))
-        CustomSearchView(search, onValueChange = {
-            search = it
-           viewModel.onSearchTextChange(it)
-        })
+        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(modifier = Modifier.height(6.dp))
+            Text("Discover", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 21.sp))
+            Spacer(modifier = Modifier.height(16.dp))
+            CustomSearchView(search, onValueChange = {
+                search = it
+                viewModel.onSearchTextChange(it)
+            })
             val news = viewModel.search.collectAsState().value ?: return
+            val isSearching = viewModel.isSearching.collectAsState().value
+            Logger.d("isSearching $isSearching")
+            if (isSearching) {
+                CircularProgressIndicator()
+            }
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -75,32 +85,35 @@ class SearchNewsScreen:Screen {
                         onClick = {
 //                            onCharacterClick(article.url)
                         },
-                        onActionSave = {  }
+                        onActionSave = { }
                     )
                 }
             }
-    }
+        }
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
     fun NewsItem(
         article: Article,
         onClick: () -> Unit,
-        onActionSave : (article: Article) -> Unit
+        onActionSave: (article: Article) -> Unit
     ) {
-        Row(modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 painter = rememberAsyncImagePainter(article.urlToImage ?: ""),
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .width(110.dp)
+                    .width(120.dp)
                     .height(110.dp)
-                    .padding(10.dp)
-                    .clip(CircleShape)
+                    .padding(4.dp)
+                    .clip(RoundedCornerShape(12.dp))
             )
-
+            Spacer(modifier = Modifier.width(6.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -108,16 +121,27 @@ class SearchNewsScreen:Screen {
                 Text(
                     text = article.title,
                     modifier = Modifier,
-                    maxLines = 1
+                    maxLines = 1,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
                 )
                 Text(
                     text = article.description.orEmpty(),
                     modifier = Modifier,
-                    maxLines = 2
+                    maxLines = 2,
+                    fontSize = 12.sp,
+                    color = Color.Black.copy(alpha = 0.6f)
                 )
+                Image(painterResource("ic_save.png"), contentDescription = null, modifier = Modifier.size(20.dp))
+//                Button(content = {
+//                    Text("Save article")
+//                }, onClick = {
+//                    onActionSave(article)
+//                })
             }
         }
     }
+
     @Composable
     fun CustomSearchView(
         search: String,

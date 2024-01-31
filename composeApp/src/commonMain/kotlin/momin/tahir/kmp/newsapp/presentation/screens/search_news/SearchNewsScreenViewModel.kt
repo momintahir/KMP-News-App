@@ -3,6 +3,7 @@ package momin.tahir.kmp.newsapp.presentation.screens.search_news
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +21,7 @@ import momin.tahir.kmp.newsapp.domain.usecase.SearchNewsUseCase
 class SearchNewsScreenViewModel(private val searchNewsUseCase: SearchNewsUseCase) : ScreenModel {
 
     private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
+    private val searchText = _searchText.asStateFlow()
 
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
