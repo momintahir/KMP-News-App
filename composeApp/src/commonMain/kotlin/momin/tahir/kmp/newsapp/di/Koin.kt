@@ -21,6 +21,7 @@ import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SearchNewsUseCase
 import momin.tahir.kmp.newsapp.presentation.screens.home.HomeScreenViewModel
+import momin.tahir.kmp.newsapp.presentation.screens.profile.ProfileViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScreenViewModel
 import momin.tahir.kmp.newsapp.presentation.screens.search_news.SearchNewsScreenViewModel
 import org.koin.core.context.startKoin
@@ -74,6 +75,7 @@ val viewModelModule = module {
     factory { HomeScreenViewModel(get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
     factory { SearchNewsScreenViewModel(get()) }
+    factory { ProfileViewModel() }
 }
 val sqlDelightModule = module {
     single { Database(get()) }
