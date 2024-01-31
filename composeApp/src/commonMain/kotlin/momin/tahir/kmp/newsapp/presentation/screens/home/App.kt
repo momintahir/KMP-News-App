@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
+import momin.tahir.kmp.newsapp.presentation.screens.profile.ProfileScreen
 import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScreen
 import momin.tahir.kmp.newsapp.presentation.screens.search_news.SearchNewsScreen
 
@@ -46,7 +47,7 @@ fun App() {
                 }
             },
             content = {
-                if (selectedScreen == "News") NewsScreen() else if (selectedScreen == "Search") SearchNewsScreenFun() else SavedNewsScreen()
+                if (selectedScreen == "News") NewsScreen() else if (selectedScreen == "Search") SearchNewsScreenFun() else if (selectedScreen == "Profile") UserProfileScreen() else SavedNewsScreen()
             }
         )
     }
@@ -56,6 +57,12 @@ fun App() {
 fun NewsScreen() {
     Navigator(HomeScreen())
 }
+
+@Composable
+fun UserProfileScreen() {
+    Navigator(ProfileScreen())
+}
+
 
 @Composable
 fun SearchNewsScreenFun() {
