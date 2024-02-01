@@ -10,7 +10,7 @@ CREATE TABLE Article(
 
 -- Equivalent to OnConflictStrategy.Replace
 insertNewsFavourite:
-INSERT OR REPLACE INTO Article(author, description, publishedAt, title, content, url, urlToImage) VALUES (:author,:description,:publishedAt,:title,:content,:url,:urlToImage);
+INSERT OR REPLACE INTO Article(author,content, description, publishedAt, title, url, urlToImage) VALUES (:author,:content,:description,:publishedAt,:title,:url,:urlToImage);
 
 selectAllNewsFavorite:
 SELECT * FROM Article;

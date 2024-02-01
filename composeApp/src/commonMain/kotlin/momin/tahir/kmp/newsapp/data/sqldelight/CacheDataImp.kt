@@ -11,10 +11,10 @@ class CacheDataImp(private val appDatabase: Database) : ICacheData {
         appDatabase {
         it.appDatabaseQueries.insertNewsFavourite(
             article.author,
-            article.description,
-            article.title,
-            article.publishedAt,
             article.content,
+            article.description,
+            article.publishedAt,
+            article.title,
             article.url,
             article.urlToImage
         )

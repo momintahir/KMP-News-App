@@ -60,7 +60,7 @@ class SearchNewsScreen : Screen {
     @Composable
     fun MainContent(viewModel: SearchNewsScreenViewModel) {
         var search by remember { mutableStateOf("") }
-        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(6.dp))
             Text("Discover", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 21.sp))
             Spacer(modifier = Modifier.height(16.dp))

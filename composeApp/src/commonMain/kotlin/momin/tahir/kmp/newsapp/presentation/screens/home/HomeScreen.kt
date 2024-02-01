@@ -160,20 +160,20 @@ class HomeScreen : Screen {
                 actionSave(it)
 
             })
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
-                verticalArrangement = Arrangement.Top
-            ) {
-                items(news.articles) { article ->
-                    NewsItem(
-                        article = article,
-                        onClick = {
-//                            onCharacterClick(article.url)
-                        },
-                        onActionSave = { }
-                    )
-                }
-            }
+//            LazyColumn(
+//                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+//                verticalArrangement = Arrangement.Top
+//            ) {
+//                items(news.articles) { article ->
+//                    NewsItem(
+//                        article = article,
+//                        onClick = {
+////                            onCharacterClick(article.url)
+//                        },
+//                        onActionSave = { }
+//                    )
+//                }
+//            }
         }
     }
 
