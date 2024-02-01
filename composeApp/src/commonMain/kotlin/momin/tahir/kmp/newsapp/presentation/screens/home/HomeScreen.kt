@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -67,7 +68,11 @@ class HomeScreen : Screen {
             when (val resultedState = state.value) {
                 is HomeScreenViewState.Failure -> Failure(resultedState.error)
                 HomeScreenViewState.Loading -> Loading()
-                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news)
+                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news, onItemClick = { webUrl ->
+                    navigateToWebViewScreen(webUrl, navigator)
+                }, actionSave = {
+                    viewModel.saveArticle(it)
+                })
             }
         }
 
@@ -75,7 +80,7 @@ class HomeScreen : Screen {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun TopNewsPager(news: News) {
+    fun TopNewsPager(news: News, onItemClick: (String) -> Unit, actionSave:(article:Article) -> Unit) {
         val pagerState = rememberPagerState() { news.articles.take(7).size }
         Column {
             Spacer(modifier = Modifier.height(6.dp))
@@ -148,6 +153,13 @@ class HomeScreen : Screen {
             Text("Recommendation", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
             Spacer(modifier = Modifier.height(6.dp))
 
+
+            CharactersList(news, onItemClick = {
+                onItemClick(it)
+            }, onActionSave = {
+                actionSave(it)
+
+            })
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
                 verticalArrangement = Arrangement.Top
@@ -177,7 +189,7 @@ class HomeScreen : Screen {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = Color.Magenta,
+                color = Color.Black,
             )
         }
     }
@@ -185,7 +197,7 @@ class HomeScreen : Screen {
     @Composable
     fun CharactersList(
         news: News,
-        onCharacterClick: (String) -> Unit,
+        onItemClick: (String) -> Unit,
         onActionSave: (article: Article) -> Unit,
     ) {
         LazyColumn(
@@ -196,7 +208,7 @@ class HomeScreen : Screen {
                 NewsItem(
                     article = article,
                     onClick = {
-                        onCharacterClick(article.url)
+                        onItemClick(article.url)
                     },
                     onActionSave = onActionSave
                 )
@@ -227,6 +239,7 @@ class HomeScreen : Screen {
             )
             Spacer(modifier = Modifier.width(6.dp))
             Column(
+                modifier = Modifier.fillMaxWidth(0.85f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -235,6 +248,7 @@ class HomeScreen : Screen {
                     modifier = Modifier,
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
                     fontSize = 16.sp
                 )
                 Text(
@@ -242,15 +256,13 @@ class HomeScreen : Screen {
                     modifier = Modifier,
                     maxLines = 2,
                        fontSize = 12.sp,
+                    overflow = TextOverflow.Ellipsis,
                     color = Color.Black.copy(alpha = 0.6f)
                 )
-                Image(painterResource("ic_save.png"), contentDescription = null,modifier = Modifier.size(20.dp))
-//                Button(content = {
-//                    Text("Save article")
-//                }, onClick = {
-//                    onActionSave(article)
-//                })
             }
+            Image(painterResource("ic_save.png"), contentDescription = null,modifier = Modifier.size(20.dp).clickable {
+                onActionSave(article)
+            })
         }
     }
 
