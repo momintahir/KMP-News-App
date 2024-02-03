@@ -74,7 +74,7 @@ val ktorModule = module {
 val viewModelModule = module {
     factory { HomeScreenViewModel(get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
-    factory { SearchNewsScreenViewModel(get()) }
+    factory { SearchNewsScreenViewModel(get(),get()) }
     factory { ProfileViewModel() }
 }
 val sqlDelightModule = module {

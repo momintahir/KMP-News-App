@@ -2,23 +2,31 @@ package momin.tahir.kmp.newsapp.presentation.screens.search_news
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.model.News
-import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
-import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
+import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SearchNewsUseCase
+import kotlin.coroutines.CoroutineContext
 
-class SearchNewsScreenViewModel(private val searchNewsUseCase: SearchNewsUseCase) : ScreenModel {
+class SearchNewsScreenViewModel(private val searchNewsUseCase: SearchNewsUseCase, private val saveArticleUseCase: SaveNewsUseCase) : ScreenModel {
+
+    private val job = SupervisorJob()
+    private val coroutineContext: CoroutineContext = job + Dispatchers.IO
+    private val viewModelScope = CoroutineScope(coroutineContext)
 
     private val _searchText = MutableStateFlow("")
     private val searchText = _searchText.asStateFlow()
@@ -48,5 +56,9 @@ class SearchNewsScreenViewModel(private val searchNewsUseCase: SearchNewsUseCase
             _news.value
         )
 
-
+    fun saveArticle(article: Article) {
+        viewModelScope.launch {
+            saveArticleUseCase.invoke(article)
+        }
+    }
 }
