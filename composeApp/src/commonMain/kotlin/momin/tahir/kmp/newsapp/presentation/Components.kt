@@ -79,7 +79,7 @@ fun NewsItem(
         )
         Spacer(modifier = Modifier.width(6.dp))
         Column(
-            modifier = Modifier.fillMaxWidth(0.85f),
+            modifier = Modifier.fillMaxWidth(0.8f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
