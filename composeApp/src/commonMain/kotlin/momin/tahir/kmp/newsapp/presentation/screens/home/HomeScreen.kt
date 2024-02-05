@@ -3,6 +3,7 @@ package momin.tahir.kmp.newsapp.presentation.screens.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -85,7 +86,7 @@ class HomeScreen : Screen {
                 pageSpacing = 20.dp, contentPadding = PaddingValues(horizontal = 30.dp)
             ) { page ->
                 val item = news.articles[page]
-                Box {
+                Box(modifier=Modifier.clickable { onItemClick(item.url) }) {
                     Image(
                         painter = rememberAsyncImagePainter(item.urlToImage ?: ""),
                         contentDescription = null,
