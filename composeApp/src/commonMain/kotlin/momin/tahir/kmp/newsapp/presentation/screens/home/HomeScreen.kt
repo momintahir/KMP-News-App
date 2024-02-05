@@ -136,7 +136,7 @@ class HomeScreen : Screen {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                repeat(7) { iteration ->
+                repeat(news.articles.take(7).size) { iteration ->
                     val color = if (pagerState.currentPage == iteration) Color.Blue.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.1f)
                     Box(
                         modifier = Modifier
