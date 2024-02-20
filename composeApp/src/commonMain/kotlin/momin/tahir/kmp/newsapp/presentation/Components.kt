@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,24 +37,25 @@ fun NewsList(
     articles: List<Article>,
     onItemClick: (String) -> Unit,
     showSaveIcon: Boolean = true,
-    onActionSave: (article: Article) -> Unit = {},
+    onActionSave: (article: Article,index:Int) -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
-        items(articles) { article ->
+        itemsIndexed(articles) { index, article ->
             NewsItem(
                 article = article,
                 showSaveIcon = showSaveIcon,
                 onClick = {
                     onItemClick(article.url)
                 },
-                onActionSave = onActionSave
+                onActionSave = {onActionSave(article,index)}
             )
         }
     }
 }
+data class ListItem(val article: Article, val isSelected: Boolean)
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -61,6 +63,7 @@ fun NewsItem(
     article: Article,
     showSaveIcon: Boolean,
     onClick: () -> Unit,
+    isSelected: Boolean = false,
     onActionSave: (article: Article) -> Unit
 ) {
     Row(
@@ -100,9 +103,19 @@ fun NewsItem(
                 color = Color.Black.copy(alpha = 0.6f)
             )
         }
-        if (showSaveIcon) {
-            Image(painterResource("ic_save.png"), contentDescription = null, modifier = Modifier.size(20.dp).clickable {
-                onActionSave(article)
+        if (true) {
+            Image(painterResource(if (isSelected) "ic_saved.png" else "ic_save.png"), contentDescription = null,
+                modifier = Modifier.size(20.dp).clickable {
+                    onActionSave(article)
+//               if (isSelected){
+//                   onActionSave(article)
+////               }
+//                       article = items.mapIndexed { j, item ->
+//                           if(i == j) {
+//                               item.copy(isSelected = !item.isSelected)
+//                           } else item
+//            }
+//            )
             })
         }
     }

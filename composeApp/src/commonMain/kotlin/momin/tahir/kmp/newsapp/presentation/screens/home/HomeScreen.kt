@@ -22,6 +22,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +46,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.seiko.imageloader.rememberAsyncImagePainter
 import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.model.News
+import momin.tahir.kmp.newsapp.presentation.ListItem
 import momin.tahir.kmp.newsapp.presentation.NewsList
 import momin.tahir.kmp.newsapp.presentation.screens.web_view.WebViewScreen
 import kotlin.math.absoluteValue
@@ -77,6 +80,7 @@ class HomeScreen : Screen {
     @Composable
     fun TopNewsPager(news: News, onItemClick: (String) -> Unit, actionSave: (article: Article) -> Unit) {
         val pagerState = rememberPagerState() { news.articles.take(7).size }
+        var articles = remember { mutableStateOf(news.articles.map { ListItem(it,false) }) }
         Column {
             Spacer(modifier = Modifier.height(6.dp))
             Text("Breaking News", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 21.sp))
@@ -152,7 +156,15 @@ class HomeScreen : Screen {
             Spacer(modifier = Modifier.height(6.dp))
             Text("Recommendation", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
             Spacer(modifier = Modifier.height(6.dp))
-            NewsList(news.articles, onActionSave = { actionSave(it) }, onItemClick = { onItemClick(it) })
+            NewsList(news.articles, onActionSave = {
+                actionSave(it)
+                articles.value = articles.value.mapIndexed { j, item ->
+                    if(i == j) {
+                        item.copy(isSelected = !item.isSelected)
+                    } else item
+                } }, onItemClick = {
+                    onItemClick()
+                })
         }
     }
 
