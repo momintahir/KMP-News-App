@@ -72,7 +72,7 @@ val ktorModule = module {
     single { "https://newsapi.org/v2" }
 }
 val viewModelModule = module {
-    factory { HomeScreenViewModel(get(),get()) }
+    factory { HomeScreenViewModel(get(),get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
     factory { SearchNewsScreenViewModel(get(),get()) }
     factory { ProfileViewModel() }

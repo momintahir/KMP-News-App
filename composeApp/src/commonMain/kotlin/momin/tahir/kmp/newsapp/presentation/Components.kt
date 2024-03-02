@@ -35,10 +35,11 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun NewsList(
     articles: List<Article>,
+    savedNews:List<Article>? =null,
     onItemClick: (String) -> Unit,
     showSaveIcon: Boolean = true,
     isSelected: Boolean=false,
-    onActionSave: (article: Article,index:Int) -> Unit = { _, _ ->},
+    onActionSave: (article: Article, index: Int) -> Unit = { _, _ -> },
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -48,7 +49,7 @@ fun NewsList(
             NewsItem(
                 article = article,
                 showSaveIcon = showSaveIcon,
-                isSelected = isSelected,
+                isSelected = savedNews?.contains(article) == true,
                 onClick = {
                     onItemClick(article.url)
                 },
@@ -65,7 +66,7 @@ fun NewsItem(
     article: Article,
     showSaveIcon: Boolean,
     onClick: () -> Unit,
-    isSelected: Boolean = false,
+    isSelected: Boolean,
     onActionSave: (article: Article) -> Unit
 ) {
     Row(
@@ -105,7 +106,6 @@ fun NewsItem(
                 color = Color.Black.copy(alpha = 0.6f)
             )
         }
-        if (true) {
             Image(painterResource(if (isSelected) "ic_saved.png" else "ic_save.png"), contentDescription = null,
                 modifier = Modifier.size(20.dp).clickable {
                     onActionSave(article)
@@ -119,6 +119,5 @@ fun NewsItem(
 //            }
 //            )
             })
-        }
     }
 }

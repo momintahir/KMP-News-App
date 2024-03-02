@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -61,12 +62,18 @@ class HomeScreen : Screen {
     @Composable
     fun MainContent(viewModel: HomeScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
         val state = viewModel.newsViewState
+        val savedNews = remember { mutableStateOf(emptyList<Article>()) }
+        LaunchedEffect(Unit) {
+            viewModel.getSavedArticles().collect {
+                savedNews.value = it
+        }
+        }
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
             when (val resultedState = state.value) {
                 is HomeScreenViewState.Failure -> Failure(resultedState.error)
                 HomeScreenViewState.Loading -> Loading()
-                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news, onItemClick = { webUrl ->
+                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news,savedNews.value, onItemClick = { webUrl ->
                     navigateToWebViewScreen(webUrl, navigator)
                 }, actionSave = {
                     viewModel.saveArticle(it)
@@ -78,7 +85,7 @@ class HomeScreen : Screen {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun TopNewsPager(news: News, onItemClick: (String) -> Unit, actionSave: (article: Article) -> Unit) {
+    fun TopNewsPager(news: News,savedNews:List<Article>, onItemClick: (String) -> Unit, actionSave: (article: Article) -> Unit) {
         val pagerState = rememberPagerState() { news.articles.take(7).size }
         var articles = remember { mutableStateOf(news.articles.map { ListItem(it,false) }) }
         Column {
@@ -156,14 +163,15 @@ class HomeScreen : Screen {
             Spacer(modifier = Modifier.height(6.dp))
             Text("Recommendation", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
             Spacer(modifier = Modifier.height(6.dp))
-            NewsList(news.articles, onActionSave = { article, index ->
+            NewsList(news.articles,savedNews, onActionSave = { article, index ->
+
                 actionSave(article)
 //                articles.value = articles.value.mapIndexed { j, item ->
 //                    if(index == j) {
 //                        item.copy(isSelected = !item.isSelected)
 //                    } else item
 //                }
-                                                   },
+                },
                 isSelected = false
                 , onItemClick = {
                     onItemClick(it)
