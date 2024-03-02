@@ -156,14 +156,17 @@ class HomeScreen : Screen {
             Spacer(modifier = Modifier.height(6.dp))
             Text("Recommendation", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
             Spacer(modifier = Modifier.height(6.dp))
-            NewsList(news.articles, onActionSave = {
-                actionSave(it)
-                articles.value = articles.value.mapIndexed { j, item ->
-                    if(i == j) {
-                        item.copy(isSelected = !item.isSelected)
-                    } else item
-                } }, onItemClick = {
-                    onItemClick()
+            NewsList(news.articles, onActionSave = { article, index ->
+                actionSave(article)
+//                articles.value = articles.value.mapIndexed { j, item ->
+//                    if(index == j) {
+//                        item.copy(isSelected = !item.isSelected)
+//                    } else item
+//                }
+                                                   },
+                isSelected = false
+                , onItemClick = {
+                    onItemClick(it)
                 })
         }
     }

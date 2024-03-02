@@ -37,7 +37,8 @@ fun NewsList(
     articles: List<Article>,
     onItemClick: (String) -> Unit,
     showSaveIcon: Boolean = true,
-    onActionSave: (article: Article,index:Int) -> Unit = {},
+    isSelected: Boolean=false,
+    onActionSave: (article: Article,index:Int) -> Unit = { _, _ ->},
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -47,10 +48,11 @@ fun NewsList(
             NewsItem(
                 article = article,
                 showSaveIcon = showSaveIcon,
+                isSelected = isSelected,
                 onClick = {
                     onItemClick(article.url)
                 },
-                onActionSave = {onActionSave(article,index)}
+                onActionSave = { onActionSave(article, index) }
             )
         }
     }
