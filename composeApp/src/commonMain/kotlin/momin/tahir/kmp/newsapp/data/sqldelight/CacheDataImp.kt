@@ -21,6 +21,12 @@ class CacheDataImp(private val appDatabase: Database) : ICacheData {
         }
     }
 
+    override suspend fun deleteArticle(article: Article) {
+        appDatabase {
+            it.appDatabaseQueries.deleteArticle(article.url)
+        }
+    }
+
     override suspend fun getSavedNewsList()  = appDatabase { appDatabase ->
             appDatabase.appDatabaseQueries.selectAllNewsFavorite(::mapFavorite).executeAsList()
     }

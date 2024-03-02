@@ -15,6 +15,10 @@ class NewsRepositoryImp(private val newsApi: INewsApi,
         cachedData.saveArticle(article)
     }
 
+    override suspend fun deleteArticle(article: Article) {
+        cachedData.deleteArticle(article)
+    }
+
     override suspend fun getSavedArticles()= cachedData.getSavedNewsList()
 
 }

@@ -16,6 +16,7 @@ import momin.tahir.kmp.newsapp.data.repository.NewsRepositoryImp
 import momin.tahir.kmp.newsapp.data.sqldelight.CacheDataImp
 import momin.tahir.kmp.newsapp.data.sqldelight.Database
 import momin.tahir.kmp.newsapp.data.sqldelight.DatabaseDriverFactory
+import momin.tahir.kmp.newsapp.domain.usecase.DeleteNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
@@ -48,6 +49,7 @@ val useCasesModule: Module = module {
     factory { SaveNewsUseCase(get()) }
     factory { GetSavedNewsUseCase(get()) }
     factory { SearchNewsUseCase(get()) }
+    factory { DeleteNewsUseCase(get()) }
 }
 
 val ktorModule = module {
@@ -72,7 +74,7 @@ val ktorModule = module {
     single { "https://newsapi.org/v2" }
 }
 val viewModelModule = module {
-    factory { HomeScreenViewModel(get(),get(),get()) }
+    factory { HomeScreenViewModel(get(),get(),get(),get()) }
     factory { SavedNewsListScreenViewModel(get()) }
     factory { SearchNewsScreenViewModel(get(),get()) }
     factory { ProfileViewModel() }

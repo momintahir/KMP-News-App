@@ -9,6 +9,7 @@ interface INewsRepository {
     suspend fun searchNews(query:String): NewsDto
 
     suspend fun saveArticle(article: Article)
+    suspend fun deleteArticle(article: Article)
     suspend fun getSavedArticles():List<Article>
 
 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import momin.tahir.kmp.newsapp.domain.model.Article
+import momin.tahir.kmp.newsapp.domain.usecase.DeleteNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetAllNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.GetSavedNewsUseCase
 import momin.tahir.kmp.newsapp.domain.usecase.SaveNewsUseCase
@@ -16,6 +17,7 @@ import kotlin.coroutines.CoroutineContext
 
 class HomeScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
                           private val saveArticleUseCase: SaveNewsUseCase,
+                          private val deleteArticleUseCase: DeleteNewsUseCase,
                           private val savedArticles: GetSavedNewsUseCase) : ScreenModel {
 
     private val job = SupervisorJob()
@@ -41,6 +43,11 @@ class HomeScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
     fun saveArticle(article: Article) {
         viewModelScope.launch {
             saveArticleUseCase.invoke(article)
+        }
+    }
+    fun removeArticle(article: Article) {
+        viewModelScope.launch {
+            deleteArticleUseCase.invoke(article)
         }
     }
 }

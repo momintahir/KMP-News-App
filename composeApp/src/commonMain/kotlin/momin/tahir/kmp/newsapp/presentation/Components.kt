@@ -40,6 +40,7 @@ fun NewsList(
     showSaveIcon: Boolean = true,
     isSelected: Boolean=false,
     onActionSave: (article: Article, index: Int) -> Unit = { _, _ -> },
+    onActionRemove: (article: Article, index: Int) -> Unit = { _, _ -> },
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -53,7 +54,8 @@ fun NewsList(
                 onClick = {
                     onItemClick(article.url)
                 },
-                onActionSave = { onActionSave(article, index) }
+                onActionSave = { onActionSave(article, index) },
+                onActionRemove = {onActionRemove(article, index)}
             )
         }
     }
@@ -67,7 +69,8 @@ fun NewsItem(
     showSaveIcon: Boolean,
     onClick: () -> Unit,
     isSelected: Boolean,
-    onActionSave: (article: Article) -> Unit
+    onActionSave: (article: Article) -> Unit,
+    onActionRemove: (article: Article) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
@@ -108,7 +111,7 @@ fun NewsItem(
         }
             Image(painterResource(if (isSelected) "ic_saved.png" else "ic_save.png"), contentDescription = null,
                 modifier = Modifier.size(20.dp).clickable {
-                    onActionSave(article)
+                    if (isSelected) onActionSave(article) else onActionRemove(article)
 //               if (isSelected){
 //                   onActionSave(article)
 ////               }

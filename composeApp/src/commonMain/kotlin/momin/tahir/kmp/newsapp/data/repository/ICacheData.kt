@@ -5,6 +5,7 @@ import momin.tahir.kmp.newsapp.domain.model.Article
 
 interface ICacheData {
     suspend fun saveArticle(article: Article)
+    suspend fun deleteArticle(article: Article)
 
     suspend fun getSavedNewsList(): List<Article>
 

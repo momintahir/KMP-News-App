@@ -12,5 +12,9 @@ CREATE TABLE Article(
 insertNewsFavourite:
 INSERT OR REPLACE INTO Article(author,content, description, publishedAt, title, url, urlToImage) VALUES (:author,:content,:description,:publishedAt,:title,:url,:urlToImage);
 
+deleteArticle:
+DELETE FROM Article WHERE url IS :url;
+
+
 selectAllNewsFavorite:
 SELECT * FROM Article;

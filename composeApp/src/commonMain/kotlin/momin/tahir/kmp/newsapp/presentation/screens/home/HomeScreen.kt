@@ -77,6 +77,8 @@ class HomeScreen : Screen {
                     navigateToWebViewScreen(webUrl, navigator)
                 }, actionSave = {
                     viewModel.saveArticle(it)
+                }, onActionRemove = {
+                    viewModel.removeArticle(it)
                 })
             }
         }
@@ -85,9 +87,8 @@ class HomeScreen : Screen {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun TopNewsPager(news: News,savedNews:List<Article>, onItemClick: (String) -> Unit, actionSave: (article: Article) -> Unit) {
+    fun TopNewsPager(news: News,savedNews:List<Article>, onItemClick: (String) -> Unit, actionSave: (article: Article) -> Unit,onActionRemove:(article:Article) -> Unit) {
         val pagerState = rememberPagerState() { news.articles.take(7).size }
-        var articles = remember { mutableStateOf(news.articles.map { ListItem(it,false) }) }
         Column {
             Spacer(modifier = Modifier.height(6.dp))
             Text("Breaking News", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 21.sp))
@@ -164,13 +165,10 @@ class HomeScreen : Screen {
             Text("Recommendation", modifier = Modifier.padding(10.dp), style = TextStyle(fontWeight = FontWeight.Bold, color = Color.Black))
             Spacer(modifier = Modifier.height(6.dp))
             NewsList(news.articles,savedNews, onActionSave = { article, index ->
-
                 actionSave(article)
-//                articles.value = articles.value.mapIndexed { j, item ->
-//                    if(index == j) {
-//                        item.copy(isSelected = !item.isSelected)
-//                    } else item
-//                }
+                },
+                onActionRemove = {article, index ->
+                    onActionRemove(article)
                 },
                 isSelected = false
                 , onItemClick = {
