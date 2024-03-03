@@ -45,6 +45,7 @@ class HomeScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
     fun getSavedArticles() {
         viewModelScope.launch {
             savedArticles.invoke().collect{
+                savedNews.clear()
                 savedNews.addAll(it)
             }
         }

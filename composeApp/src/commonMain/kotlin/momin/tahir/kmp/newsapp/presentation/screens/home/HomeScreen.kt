@@ -83,6 +83,7 @@ class HomeScreen : Screen {
                     viewModel.getSavedArticles()
                 }, onActionRemove = {
                     viewModel.removeArticle(it)
+                    viewModel.getSavedArticles()
                 })
 
                 else -> {}
