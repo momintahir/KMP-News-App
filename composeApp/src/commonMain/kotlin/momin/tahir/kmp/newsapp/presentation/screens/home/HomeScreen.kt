@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +46,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.seiko.imageloader.rememberAsyncImagePainter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.model.News
 import momin.tahir.kmp.newsapp.presentation.ListItem
@@ -62,29 +66,29 @@ class HomeScreen : Screen {
     @Composable
     fun MainContent(viewModel: HomeScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
         val state = viewModel.newsViewState
-        val savedNews = remember { mutableStateOf(emptyList<Article>()) }
-        LaunchedEffect(Unit) {
-            viewModel.getSavedArticles().collect {
-                savedNews.value = it
-        }
+        val isSaved = remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+        LaunchedEffect(Unit){
+            viewModel.getSavedArticles()
         }
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
             when (val resultedState = state.value) {
                 is HomeScreenViewState.Failure -> Failure(resultedState.error)
                 HomeScreenViewState.Loading -> Loading()
-                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news,savedNews.value, onItemClick = { webUrl ->
+                is HomeScreenViewState.Success -> TopNewsPager(resultedState.news,viewModel.savedNews, onItemClick = { webUrl ->
                     navigateToWebViewScreen(webUrl, navigator)
                 }, actionSave = {
                     viewModel.saveArticle(it)
+                    viewModel.getSavedArticles()
                 }, onActionRemove = {
                     viewModel.removeArticle(it)
                 })
+
+                else -> {}
             }
         }
-
     }
-
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun TopNewsPager(news: News,savedNews:List<Article>, onItemClick: (String) -> Unit, actionSave: (article: Article) -> Unit,onActionRemove:(article:Article) -> Unit) {

@@ -1,12 +1,15 @@
 package momin.tahir.kmp.newsapp.presentation.screens.home
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.model.ScreenModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.usecase.DeleteNewsUseCase
@@ -25,6 +28,7 @@ class HomeScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
     private val viewModelScope = CoroutineScope(coroutineContext)
 
     val newsViewState = mutableStateOf<HomeScreenViewState>(HomeScreenViewState.Loading)
+    var savedNews =  mutableStateListOf<Article>()
 
     init {
         viewModelScope.launch {
@@ -38,13 +42,27 @@ class HomeScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
         }
     }
 
-    fun getSavedArticles() = savedArticles.invoke()
+    fun getSavedArticles() {
+        viewModelScope.launch {
+            savedArticles.invoke().collect{
+                savedNews.addAll(it)
+            }
+        }
+    }
 
     fun saveArticle(article: Article) {
         viewModelScope.launch {
             saveArticleUseCase.invoke(article)
         }
     }
+
+//    fun saveAndFetchArticles(article: Article) : Flow<List<Article>> {
+//        viewModelScope.launch {
+//            saveArticleUseCase.invoke(article)
+//            savedArticles.invoke()
+//        }
+//    }
+
     fun removeArticle(article: Article) {
         viewModelScope.launch {
             deleteArticleUseCase.invoke(article)

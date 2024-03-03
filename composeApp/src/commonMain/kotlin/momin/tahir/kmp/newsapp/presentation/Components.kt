@@ -51,10 +51,9 @@ fun NewsList(
                 article = article,
                 showSaveIcon = showSaveIcon,
                 isSelected = savedNews?.contains(article) == true,
-                onClick = {
-                    onItemClick(article.url)
-                },
-                onActionSave = { onActionSave(article, index) },
+                onClick = { onItemClick(article.url) },
+                onActionSave = {
+                    onActionSave(article, index) },
                 onActionRemove = {onActionRemove(article, index)}
             )
         }
@@ -111,16 +110,9 @@ fun NewsItem(
         }
             Image(painterResource(if (isSelected) "ic_saved.png" else "ic_save.png"), contentDescription = null,
                 modifier = Modifier.size(20.dp).clickable {
-                    if (isSelected) onActionSave(article) else onActionRemove(article)
-//               if (isSelected){
-//                   onActionSave(article)
-////               }
-//                       article = items.mapIndexed { j, item ->
-//                           if(i == j) {
-//                               item.copy(isSelected = !item.isSelected)
-//                           } else item
-//            }
-//            )
+
+                    if (isSelected) onActionRemove(article) else onActionSave(article)
+
             })
     }
 }
