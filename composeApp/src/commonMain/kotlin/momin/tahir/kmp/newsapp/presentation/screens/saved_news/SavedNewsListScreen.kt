@@ -46,7 +46,6 @@ class SavedNewsListScreen : Screen {
 
     @Composable
     override fun Content() {
-        println("inside content")
         val viewModel = getScreenModel<SavedNewsListScreenViewModel>()
         MainScreen(viewModel)
     }
@@ -67,71 +66,6 @@ class SavedNewsListScreen : Screen {
             NewsList(news.value, showSaveIcon = false, onItemClick = {
                 navigateToWebViewScreen(it, navigator)
             })
-        }
-    }
-
-    @Composable
-    fun CharactersList(
-        articles: List<Article>,
-        onItemClick: (String) -> Unit,
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top
-        ) {
-            items(articles) { article ->
-                NewsItem(
-                    article = article,
-                    onClick = {
-                        onItemClick(article.url)
-                    },
-                )
-            }
-        }
-    }
-
-    @Composable
-    fun NewsItem(
-        article: Article,
-        onClick: () -> Unit,
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().height(110.dp).clickable(onClick = onClick), horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(article.urlToImage ?: ""),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(110.dp)
-                    .padding(4.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            )
-            Spacer(modifier = Modifier.width(6.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth(0.85f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    text = article.title,
-                    modifier = Modifier,
-                    maxLines = 1,
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 16.sp
-                )
-                Text(
-                    text = article.description.orEmpty(),
-                    modifier = Modifier,
-                    maxLines = 2,
-                    fontSize = 12.sp,
-                    overflow = TextOverflow.Ellipsis,
-                    color = Color.Black.copy(alpha = 0.6f)
-                )
-            }
         }
     }
 

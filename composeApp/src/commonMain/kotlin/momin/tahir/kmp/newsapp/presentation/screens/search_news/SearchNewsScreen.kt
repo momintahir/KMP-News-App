@@ -61,13 +61,14 @@ class SearchNewsScreen : Screen {
             val isSearching = viewModel.isSearching.collectAsState().value
 
             Spacer(Modifier.height(20.dp))
-//            Box {
-//                NewsList(news.articles, onActionSave = { article, index ->
-//                    viewModel.saveArticle(article) }, onItemClick = { navigateToWebViewScreen(it, navigator) })
-//                if (isSearching) {
-//                    CircularProgressIndicator(modifier = Modifier.align(Alignment.TopCenter))
-//                }
-//            }
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                NewsList(news.articles, onActionSave = { article, _ ->
+                    viewModel.saveArticle(article) }, onItemClick = { navigateToWebViewScreen(it, navigator) }, showSaveIcon = true)
+                if (isSearching) {
+                    println("isSearching $isSearching")
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+            }
         }
     }
 

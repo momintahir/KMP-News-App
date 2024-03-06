@@ -36,9 +36,9 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun NewsList(
     articles: List<Article>,
-    savedNews:List<Article>? =null,
+    savedNews: List<Article>? = null,
     onItemClick: (String) -> Unit,
-    showSaveIcon: Boolean = true,
+    showSaveIcon: Boolean,
     onActionSave: (article: Article, index: Int) -> Unit = { _, _ -> },
     onActionRemove: (article: Article, index: Int) -> Unit = { _, _ -> },
 ) {
@@ -60,8 +60,6 @@ fun NewsList(
         }
     }
 }
-data class ListItem(val article: Article, val isSelected: Boolean)
-
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun NewsItem(
@@ -109,11 +107,11 @@ fun NewsItem(
                 color = Color.Black.copy(alpha = 0.6f)
             )
         }
+        if (showSaveIcon) {
             Image(painterResource(if (isSelected) "ic_saved.png" else "ic_save.png"), contentDescription = null,
                 modifier = Modifier.size(20.dp).clickable {
-
                     if (isSelected) onActionRemove(article) else onActionSave(article)
-
-            })
+                })
+        }
     }
 }

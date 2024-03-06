@@ -162,7 +162,7 @@ class HomeScreen : Screen {
                     onActionRemove(article)
                 }, onItemClick = {
                     onItemClick(it)
-                })
+                }, showSaveIcon = true)
         }
     }
 
