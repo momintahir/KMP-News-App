@@ -46,12 +46,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.seiko.imageloader.rememberAsyncImagePainter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import momin.tahir.kmp.newsapp.domain.model.Article
 import momin.tahir.kmp.newsapp.domain.model.News
-import momin.tahir.kmp.newsapp.presentation.ListItem
 import momin.tahir.kmp.newsapp.presentation.NewsList
 import momin.tahir.kmp.newsapp.presentation.screens.web_view.WebViewScreen
 import kotlin.math.absoluteValue
@@ -66,8 +62,6 @@ class HomeScreen : Screen {
     @Composable
     fun MainContent(viewModel: HomeScreenViewModel, navigator: Navigator = LocalNavigator.currentOrThrow) {
         val state = viewModel.newsViewState
-        val isSaved = remember { mutableStateOf(false) }
-        val scope = rememberCoroutineScope()
         LaunchedEffect(Unit){
             viewModel.getSavedArticles()
         }
@@ -85,8 +79,6 @@ class HomeScreen : Screen {
                     viewModel.removeArticle(it)
                     viewModel.getSavedArticles()
                 })
-
-                else -> {}
             }
         }
     }
@@ -112,15 +104,10 @@ class HomeScreen : Screen {
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(24.dp))
                             .graphicsLayer {
-                                // Calculate the absolute offset for the current page from the
-                                // scroll position. We use the absolute value which allows us to mirror
-                                // any effects for both directions
                                 val pageOffset = (
                                         (pagerState.currentPage - page) + pagerState
                                             .currentPageOffsetFraction
                                         ).absoluteValue
-
-                                // We animate the alpha, between 50% and 100%
                                 alpha = lerp(
                                     start = 0.5f,
                                     stop = 1f,
@@ -146,7 +133,6 @@ class HomeScreen : Screen {
                         modifier = Modifier.align(Alignment.BottomStart).padding(horizontal = 20.dp, vertical = 15.dp)
                     )
                 }
-
             }
             Row(
                 Modifier
@@ -172,11 +158,9 @@ class HomeScreen : Screen {
             NewsList(news.articles,savedNews, onActionSave = { article, index ->
                 actionSave(article)
                 },
-                onActionRemove = {article, index ->
+                onActionRemove = { article, _ ->
                     onActionRemove(article)
-                },
-                isSelected = false
-                , onItemClick = {
+                }, onItemClick = {
                     onItemClick(it)
                 })
         }

@@ -39,7 +39,6 @@ fun NewsList(
     savedNews:List<Article>? =null,
     onItemClick: (String) -> Unit,
     showSaveIcon: Boolean = true,
-    isSelected: Boolean=false,
     onActionSave: (article: Article, index: Int) -> Unit = { _, _ -> },
     onActionRemove: (article: Article, index: Int) -> Unit = { _, _ -> },
 ) {
