@@ -7,10 +7,8 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 
-class ProfileViewModel() : ScreenModel {
+class ProfileViewModel : ScreenModel {
 
     private val job = SupervisorJob()
     private val coroutineContext: CoroutineContext = job + Dispatchers.IO
-    private val viewModelScope = CoroutineScope(coroutineContext)
-
 }

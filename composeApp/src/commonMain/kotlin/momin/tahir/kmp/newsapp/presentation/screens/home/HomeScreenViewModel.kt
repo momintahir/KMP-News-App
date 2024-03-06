@@ -57,13 +57,6 @@ class HomeScreenViewModel(private val allNewsUseCase: GetAllNewsUseCase,
         }
     }
 
-//    fun saveAndFetchArticles(article: Article) : Flow<List<Article>> {
-//        viewModelScope.launch {
-//            saveArticleUseCase.invoke(article)
-//            savedArticles.invoke()
-//        }
-//    }
-
     fun removeArticle(article: Article) {
         viewModelScope.launch {
             deleteArticleUseCase.invoke(article)
