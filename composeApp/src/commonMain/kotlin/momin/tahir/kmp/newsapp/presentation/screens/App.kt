@@ -1,4 +1,4 @@
-package momin.tahir.kmp.newsapp.presentation.screens.home
+package momin.tahir.kmp.newsapp.presentation.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
+import momin.tahir.kmp.newsapp.presentation.screens.home.HomeScreen
 import momin.tahir.kmp.newsapp.presentation.screens.profile.ProfileScreen
 import momin.tahir.kmp.newsapp.presentation.screens.saved_news.SavedNewsListScreen
 import momin.tahir.kmp.newsapp.presentation.screens.search_news.SearchNewsScreen
