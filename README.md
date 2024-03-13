@@ -93,8 +93,7 @@ So users don't need to be up-to-date on the network resources every time and it 
 ## Developed By
 <p>
 Momin Tahir
-
-![Follow_Me](misc/image/momin.jpeg)(https://github.com/momintahir)
+  <img src="misc/image/momin.jpeg" width="50" height="50"  alt=""/>
 </p>
 
 
