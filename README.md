@@ -92,7 +92,7 @@ So users don't need to be up-to-date on the network resources every time and it 
 
 ## Developed By
 <p>
-  <img src="misc/image/momin.jpeg" width="50" height="50"  alt=""/>  Momin Tahir
+  <img src="misc/image/momin.jpeg" width="100" height="100"  alt=""/>  Momin Tahir
 </p>
 
 
