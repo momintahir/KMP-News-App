@@ -15,8 +15,8 @@ The app has a few screens located in multiple feature modules:
   <br/><br/>
 - 
 <p>
-  <img src="misc/image/1.png" width="1080"  alt=""/>
-  <img src="misc/image/2.png" width="1080"  alt=""/>
-  <img src="misc/image/3.png" width="1080"  alt=""/>
-  <img src="misc/image/4.png" width="1080"  alt=""/>
+  <img src="misc/image/1.png" width="250" height="250"  alt=""/>
+  <img src="misc/image/2.png" width="250" height="250"  alt=""/>
+  <img src="misc/image/3.png" width="250" height="250"  alt=""/>
+  <img src="misc/image/4.png" width="250" height="250"  alt=""/>
 </p>
