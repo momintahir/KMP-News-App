@@ -90,9 +90,9 @@ The data Layer consists of repositories, which include business logic, such as q
 **KMP-News-App** is an offline-first app is an app that is able to perform all, or a critical subset of its core functionality without access to the internet.
 So users don't need to be up-to-date on the network resources every time and it will decrease users' data consumption. For further information, you can check out [Build an offline-first app](https://developer.android.com/topic/architecture/data-layer/offline-first).
 
-## Developed By Momin Tahir With \u2764\uFE0F
+## Developed By Momin Tahir With :heart:
 <p>
-  <img src="misc/image/momin.jpeg" width="100" height="100"  alt=""/>  Momin Tahir
+  <img src="misc/image/momin.jpeg" width="100" height="100"  alt=""/>
 </p>
 
 
