@@ -94,8 +94,7 @@ So users don't need to be up-to-date on the network resources every time and it 
 <p>
 Momin Tahir
 
-![Follow me](misc/image/momin.png)
-
+![Follow_Me](misc/image/momin.jpeg)(https://github.com/momintahir)
 </p>
 
 
