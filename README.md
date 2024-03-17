@@ -93,7 +93,7 @@ So users don't need to be up-to-date on the network resources every time and it 
 ## Find this repository useful ? :heart:
 <p>Support it by giving a ⭐ to this repository.</p>
 
-## Author - Momin Tahir:
+## Author - Momin Tahir
 <p>
   <img src="misc/image/momin.jpeg" width="100" height="100"  alt=""/>
 </p>
