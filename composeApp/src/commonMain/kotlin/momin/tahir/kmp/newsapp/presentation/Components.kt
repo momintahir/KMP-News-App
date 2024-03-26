@@ -35,7 +35,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun NewsList(
-    articles: List<Article>,
+    articles: List<Article>?,
     savedNews: List<Article>? = null,
     onItemClick: (String) -> Unit,
     showSaveIcon: Boolean,
@@ -47,16 +47,19 @@ fun NewsList(
         verticalArrangement = Arrangement.Top,
         contentPadding = PaddingValues(bottom = 70.dp)
     ) {
-        itemsIndexed(articles) { index, article ->
-            NewsItem(
-                article = article,
-                showSaveIcon = showSaveIcon,
-                isSelected = savedNews?.contains(article) == true,
-                onClick = { onItemClick(article.url) },
-                onActionSave = {
-                    onActionSave(article, index) },
-                onActionRemove = {onActionRemove(article, index)}
-            )
+        if (articles != null) {
+            itemsIndexed(articles) { index, article ->
+                NewsItem(
+                    article = article,
+                    showSaveIcon = showSaveIcon,
+                    isSelected = savedNews?.contains(article) == true,
+                    onClick = { onItemClick(article.url) },
+                    onActionSave = {
+                        onActionSave(article, index)
+                    },
+                    onActionRemove = { onActionRemove(article, index) }
+                )
+            }
         }
     }
 }
