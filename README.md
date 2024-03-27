@@ -4,7 +4,7 @@
 # Application Scope
 This is a simple application that presents news information. The data is dynamically sourced from the [News Api](https://newsapi.org/).
 
-🗡️ This demonstrates modern Android development with Hilt, Coroutines, Flow, Jetpack (Room, ViewModel), and Material Design based on MVVM architecture.
+🗡️ This demonstrates modern Android development with Koin, Coroutines, Flow, Jetpack (Ktor, ViewModel), and Material Design based on Clean Architecture.
 
 The app has a few screens located in multiple feature modules:
 
